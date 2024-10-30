@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"log"
 	"net"
+
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 type Message struct {
@@ -61,10 +63,17 @@ func (a *App) handleConnection() {
 		}
 
 		fmt.Println("[INFO] [GO] Received message: ", msg)
+		runtime.EventsEmit(a.ctx, "message/display", msg)
 	}
 }
 
 // Greet returns a greeting for the given name
 func (a *App) Greet(name string) string {
 	return fmt.Sprintf("Hello %s, It's show time!", name)
+}
+
+// Function declaration existing to generate a model for Wails for trivial
+// TS usage.
+func (a *App) ReturnMessage(msg Message) Message {
+	return msg
 }
