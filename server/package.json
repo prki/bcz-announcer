@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@volar/language-core": "^2.4.8",
+    "@volar/language-server": "^2.4.8",
+    "@volar/language-service": "^2.4.8",
+    "vls": "^0.8.5",
+    "volar-service-css": "^0.0.62",
+    "volar-service-html": "^0.0.62",
+    "vscode-html-languageservice": "^5.3.1"
+  }
+}
