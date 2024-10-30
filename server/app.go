@@ -13,6 +13,7 @@ import (
 type App struct {
 	ctx      context.Context
 	listener net.Listener
+	conn     net.Conn
 }
 
 type Message struct {
@@ -41,7 +42,12 @@ func (a *App) startup(ctx context.Context) {
 }
 
 func (a *App) shutdown(ctx context.Context) {
-	err := a.listener.Close()
+	err := a.conn.Close()
+	if err != nil {
+		log.Println("[ERROR] [Go] Error shutting down conn: ", err)
+	}
+
+	err = a.listener.Close()
 	if err != nil {
 		log.Println("[ERROR] [Go] Error shutting down server: ", err)
 	}
@@ -80,7 +86,8 @@ func (a *App) handleServer() {
 		}
 
 		log.Println("[INFO] [GO] Client connected.")
-		go a.handleConnection(conn)
+		a.conn = conn
+		//go a.handleConnection(conn)
 	}
 }
 
@@ -93,4 +100,20 @@ func (a *App) SendMessage() string {
 	fmt.Println("[INFO] [GO] Sending message.")
 
 	return "Message"
+}
+
+func (a *App) SendChangeViewRequest(viewName string) {
+	encoder := json.NewEncoder(a.conn)
+
+	msg := Message{
+		Action:  "control/change_view",
+		Message: viewName, // [TODO] Send as JSON object since that will be relevant in the future
+	}
+
+	err := encoder.Encode(msg)
+	if err != nil {
+		log.Println("[ERROR] [GO] Error encoding change view request: ", err)
+	}
+
+	log.Println("[INFO] [GO] Change view request to view " + viewName + " sent.")
 }

@@ -3,4 +3,6 @@
 
 export function Greet(arg1:string):Promise<string>;
 
+export function SendChangeViewRequest(arg1:string):Promise<void>;
+
 export function SendMessage():Promise<string>;
