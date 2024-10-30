@@ -25,6 +25,13 @@ wails.EventsOn("message/display", (msg: models.main.Message) => {
   receivedMsg.action = msg.action;
   receivedMsg.message = msg.message;
 });
+
+// Commented since not relevant + should be on top level. Kept for pattern
+// recognition, [DELME] when confident in how this works.
+/*wails.EventsOn("control/change_view", (msg: models.main.Message) => {
+  console.log("Received change view request:", msg);
+});
+*/
 </script>
 
 <style scoped>
