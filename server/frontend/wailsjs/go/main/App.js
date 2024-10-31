@@ -13,3 +13,7 @@ export function SendChangeViewRequest(arg1) {
 export function SendMessage() {
   return window['go']['main']['App']['SendMessage']();
 }
+
+export function SendUpdateCalloutRequest(arg1) {
+  return window['go']['main']['App']['SendUpdateCalloutRequest'](arg1);
+}

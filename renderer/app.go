@@ -65,8 +65,9 @@ func (a *App) handleConnection() {
 		fmt.Println("[INFO] [GO] Received message: ", msg)
 		if msg.Action == "control/change_view" {
 			runtime.EventsEmit(a.ctx, "control/change_view", msg)
+		} else if msg.Action == "callout/update" {
+			runtime.EventsEmit(a.ctx, "callout/update", msg)
 		}
-		//runtime.EventsEmit(a.ctx, "message/display", msg)
 	}
 }
 

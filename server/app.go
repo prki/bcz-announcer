@@ -21,6 +21,11 @@ type Message struct {
 	Message string `json:"message"`
 }
 
+type SetupMatch struct {
+	P1Name string `json:"p1_name"`
+	P2Name string `json:"p2_name"`
+}
+
 // NewApp creates a new App application struct
 func NewApp() *App {
 	return &App{}
@@ -113,7 +118,35 @@ func (a *App) SendChangeViewRequest(viewName string) {
 	err := encoder.Encode(msg)
 	if err != nil {
 		log.Println("[ERROR] [GO] Error encoding change view request: ", err)
+		return
 	}
 
 	log.Println("[INFO] [GO] Change view request to view " + viewName + " sent.")
+}
+
+func (a *App) SendUpdateCalloutRequest(matchInfo SetupMatch) {
+	log.Println("[INFO] [GO] Received state info: ", matchInfo)
+	matchInfoJson, err := json.Marshal(matchInfo)
+	encoder := json.NewEncoder(a.conn)
+
+	if err != nil {
+		log.Println("[ERROR] [GO] Error creating JSON message about state info: ", err)
+		return
+	}
+
+	msg := Message{
+		Action:  "callout/update",
+		Message: string(matchInfoJson),
+	}
+
+	err = encoder.Encode(msg)
+	if err != nil {
+		log.Println("[ERROR] [GO] Error encoding update callout request: ", err)
+		return
+	}
+}
+
+// Function created so that wails models generate SetupMatch type
+func (a *App) returnSetupMatch(matchInfo SetupMatch) SetupMatch {
+	return matchInfo
 }
