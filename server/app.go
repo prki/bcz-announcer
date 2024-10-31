@@ -133,16 +133,12 @@ func (a *App) SendChangeViewRequest(viewName string) {
 }
 
 func (a *App) SendUpdateCalloutRequest(matchInfo SetupMatch) {
-<<<<<<< HEAD
-	log.Println("[INFO] [GO] Received state info: ", matchInfo)
-=======
 	log.Println("[INFO] [GO] Sending update callout request: ", matchInfo)
 	if a.conn == nil {
 		log.Println("[ERROR] [GO] No connection established, unable to send request")
 		return
 	}
 
->>>>>>> 0d1f50e (feat: server check if conn is established before sending msg)
 	matchInfoJson, err := json.Marshal(matchInfo)
 	encoder := json.NewEncoder(a.conn)
 
