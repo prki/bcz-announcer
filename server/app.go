@@ -42,6 +42,7 @@ func (a *App) startup(ctx context.Context) {
 
 	log.Println("[INFO] [GO] Server listening on localhost:42069")
 	a.listener = listener
+	a.conn = nil
 
 	go a.handleServer()
 }
@@ -84,6 +85,7 @@ func (a *App) handleServer() {
 	log.Println("[INFO] [GO] Handling server, awaiting connection")
 
 	for {
+		log.Println("[INFO] [GO] Listening for connections")
 		conn, err := a.listener.Accept()
 		if err != nil {
 			log.Println("Failed to accept connection: ", err)
@@ -108,6 +110,12 @@ func (a *App) SendMessage() string {
 }
 
 func (a *App) SendChangeViewRequest(viewName string) {
+	log.Println("[INFO] [GO] Sending change view request to view name: ", viewName)
+	if a.conn == nil {
+		log.Println("[ERROR] [GO] No connection established, unable to send request")
+		return
+	}
+
 	encoder := json.NewEncoder(a.conn)
 
 	msg := Message{
@@ -125,7 +133,12 @@ func (a *App) SendChangeViewRequest(viewName string) {
 }
 
 func (a *App) SendUpdateCalloutRequest(matchInfo SetupMatch) {
-	log.Println("[INFO] [GO] Received state info: ", matchInfo)
+	log.Println("[INFO] [GO] Sending update callout request: ", matchInfo)
+	if a.conn == nil {
+		log.Println("[ERROR] [GO] No connection established, unable to send request")
+		return
+	}
+
 	matchInfoJson, err := json.Marshal(matchInfo)
 	encoder := json.NewEncoder(a.conn)
 
