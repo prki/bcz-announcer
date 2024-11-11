@@ -132,11 +132,16 @@ func (a *App) SendChangeViewRequest(viewName string) {
 	log.Println("[INFO] [GO] Change view request to view " + viewName + " sent.")
 }
 
-func (a *App) SendUpdateCalloutRequest(matchInfo SetupMatch) {
-	log.Println("[INFO] [GO] Sending update callout request: ", matchInfo)
+func (a *App) SendUpdateCallout(p1Name, p2Name string) *SetupMatch {
+	log.Println("[INFO] [GO] Sending update callout request: ", p1Name, p2Name)
 	if a.conn == nil {
 		log.Println("[ERROR] [GO] No connection established, unable to send request")
-		return
+		return nil
+	}
+
+	matchInfo := &SetupMatch{
+		P1Name: p1Name,
+		P2Name: p2Name,
 	}
 
 	matchInfoJson, err := json.Marshal(matchInfo)
@@ -144,7 +149,7 @@ func (a *App) SendUpdateCalloutRequest(matchInfo SetupMatch) {
 
 	if err != nil {
 		log.Println("[ERROR] [GO] Error creating JSON message about state info: ", err)
-		return
+		return nil
 	}
 
 	msg := Message{
@@ -155,8 +160,10 @@ func (a *App) SendUpdateCalloutRequest(matchInfo SetupMatch) {
 	err = encoder.Encode(msg)
 	if err != nil {
 		log.Println("[ERROR] [GO] Error encoding update callout request: ", err)
-		return
+		return nil
 	}
+
+	return matchInfo
 }
 
 // Function created so that wails models generate SetupMatch type

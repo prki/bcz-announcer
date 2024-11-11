@@ -8,4 +8,4 @@ export function SendChangeViewRequest(arg1:string):Promise<void>;
 
 export function SendMessage():Promise<string>;
 
-export function SendUpdateCalloutRequest(arg1:main.SetupMatch):Promise<void>;
+export function SendUpdateCallout(arg1:string,arg2:string):Promise<main.SetupMatch>;
