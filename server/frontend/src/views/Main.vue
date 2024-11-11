@@ -14,7 +14,7 @@
       </form>
     </div>
     <div class="col">
-      <h2>Match callout view form</h2>
+      <!--<h2>Match callout view form</h2>
       <form>
         <div class="row">
           <label for="match-a-p1" class="form-label">[A] Player 1 name</label>
@@ -27,6 +27,8 @@
           <button type="button" class="btn btn-primary" @click="updateCalloutView()">Update view</button>
         </div>
       </form>
+      -->
+      <MatchCallout />
     </div>
   </div>
 </template>
@@ -34,7 +36,8 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
 import { SendChangeViewRequest } from '../../wailsjs/go/main/App';
-import { SendUpdateCalloutRequest } from '../../wailsjs/go/main/App';
+//import { SendUpdateCalloutRequest } from '../../wailsjs/go/main/App';
+import MatchCallout from './MatchCallout.vue';
 import * as models from '../../wailsjs/go/models';
 
 type SetupMatch = {
@@ -61,7 +64,7 @@ function updateCalloutView() {
     p1_name: state.A.p1Name,
     p2_name: state.A.p2Name
   } as models.main.SetupMatch;
-  SendUpdateCalloutRequest(data);
+  //SendUpdateCalloutRequest(data);
 }
 
 // [TODO] DELME, kept for pattern recognition
