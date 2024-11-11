@@ -7,13 +7,16 @@ import (
 	"log"
 	"net"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 // App struct
 type App struct {
-	ctx      context.Context
-	listener net.Listener
-	conn     net.Conn
+	ctx              context.Context
+	listener         net.Listener
+	conn             net.Conn
+	existingCallouts []SetupMatch
 }
 
 type Message struct {
@@ -22,8 +25,9 @@ type Message struct {
 }
 
 type SetupMatch struct {
-	P1Name string `json:"p1_name"`
-	P2Name string `json:"p2_name"`
+	P1Name    string `json:"p1_name"`
+	P2Name    string `json:"p2_name"`
+	CalloutId string `json:"callout_id"`
 }
 
 // NewApp creates a new App application struct
@@ -139,9 +143,19 @@ func (a *App) SendUpdateCallout(p1Name, p2Name string) *SetupMatch {
 		return nil
 	}
 
+	log.Println("[DEBUG] [GO] Generating an ID for callout.")
+	id, err := uuid.NewV7()
+	if err != nil {
+		log.Println("[ERROR] [GO] Error generating UUID for callout:", err)
+		return nil
+	}
+	idStr := id.String()
+	log.Println("[DEBUG] [GO] Generated UUID:", idStr)
+
 	matchInfo := &SetupMatch{
-		P1Name: p1Name,
-		P2Name: p2Name,
+		P1Name:    p1Name,
+		P2Name:    p2Name,
+		CalloutId: idStr,
 	}
 
 	matchInfoJson, err := json.Marshal(matchInfo)
@@ -162,6 +176,13 @@ func (a *App) SendUpdateCallout(p1Name, p2Name string) *SetupMatch {
 		log.Println("[ERROR] [GO] Error encoding update callout request: ", err)
 		return nil
 	}
+
+	// [TODO] This should be appended to storage only when renderer returns
+	// information that it got through and it's there.
+	// Leaving it as is for now for debug purposes.
+	log.Println("[DEBUG] [GO] Adding callout to storage.")
+	a.existingCallouts = append(a.existingCallouts, *matchInfo)
+	log.Println("[DEBUG] [GO] Callouts in storage:", a.existingCallouts)
 
 	return matchInfo
 }

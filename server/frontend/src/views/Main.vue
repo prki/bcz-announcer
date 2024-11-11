@@ -36,7 +36,6 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
 import { SendChangeViewRequest } from '../../wailsjs/go/main/App';
-//import { SendUpdateCalloutRequest } from '../../wailsjs/go/main/App';
 import MatchCallout from './MatchCallout.vue';
 import * as models from '../../wailsjs/go/models';
 
