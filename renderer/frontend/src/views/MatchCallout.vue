@@ -12,9 +12,24 @@
       <h2>Player 2: {{ state.A.p2Name }}</h2>
     </div>
   </div>
+  <div class="row">
+    <div class="col">
+      <div class="row row-cols-md-4">
+        <CalloutCard gameName="Guilty Gear Xrd" p1Name="Pida" p2Name="Kidiot"/>
+        <CalloutCard gameName="Guilty Gear Xrd" p1Name="Pida" p2Name="Kidiot"/>
+        <CalloutCard gameName="Guilty Gear Xrd" p1Name="Pida" p2Name="Kidiot"/>
+        <CalloutCard gameName="Guilty Gear Xrd" p1Name="Pida" p2Name="Kidiot"/>
+
+        <CalloutCard gameName="Guilty Gear Xrd" p1Name="Pida" p2Name="Kidiot"/>
+        <CalloutCard gameName="Guilty Gear Xrd" p1Name="Pida" p2Name="Kidiot"/>
+        <CalloutCard gameName="Guilty Gear Xrd" p1Name="Pida" p2Name="Kidiot"/>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
+import CalloutCard from '../components/CalloutCard.vue';
 import { reactive } from 'vue';
 import * as wails from '../../wailsjs/runtime/runtime.js';
 import * as models from '../../wailsjs/go/models';
