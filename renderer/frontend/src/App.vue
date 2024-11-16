@@ -6,6 +6,13 @@ import * as models from '../wailsjs/go/models';
 import * as wails from '../wailsjs/runtime/runtime.js';
 const router = useRouter();
 
+// Preload routes by navigating through them. This is important so that data
+// can be sent into a particular view without it having been opened yet =>
+// add all possible router views into the cached tree.
+router.push("/matchcallout").then(() => {
+router.push("/")
+});
+
 wails.EventsOn("control/change_view", (msg: models.main.Message) => {
   console.log("Received change view request:", msg);
 
@@ -46,7 +53,11 @@ wails.EventsOn("control/change_view", (msg: models.main.Message) => {
         <div class="row">
           <div class="col">
             <div class="border bg-light content-row-size">
-              <RouterView />
+              <router-view v-slot="{ Component }">
+              <KeepAlive>
+                <component :is="Component" />
+              </KeepAlive>
+              </router-view>
             </div>
           </div>
         </div>
