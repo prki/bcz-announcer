@@ -16,6 +16,11 @@ type Message struct {
 	Message string `json:"message"`
 }
 
+type AckMessage struct {
+	AckAction  string `json:"ack_action"`  // Action which has been ACK'd
+	AckMessage string `json:"ack_message"` // Additional message for ACK - e.g. card ID
+}
+
 // App struct
 type App struct {
 	ctx  context.Context
@@ -53,6 +58,7 @@ func (a *App) shutdown(ctx context.Context) {
 
 func (a *App) handleConnection() {
 	decoder := json.NewDecoder(bufio.NewReader(a.conn))
+	encoder := json.NewEncoder(a.conn)
 
 	for {
 		var msg Message
@@ -67,6 +73,15 @@ func (a *App) handleConnection() {
 			runtime.EventsEmit(a.ctx, "control/change_view", msg)
 		} else if msg.Action == "callout/update" {
 			runtime.EventsEmit(a.ctx, "callout/update", msg)
+			ackMsg := AckMessage{
+				AckAction:  "callout/update",
+				AckMessage: "Test message",
+			}
+
+			err := encoder.Encode(ackMsg)
+			if err != nil {
+				log.Println("[ERROR] [GO] Error encoding ack msg:", err)
+			}
 		}
 	}
 }
