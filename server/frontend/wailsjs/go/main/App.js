@@ -14,6 +14,6 @@ export function SendMessage() {
   return window['go']['main']['App']['SendMessage']();
 }
 
-export function SendUpdateCallout(arg1, arg2) {
-  return window['go']['main']['App']['SendUpdateCallout'](arg1, arg2);
+export function SendUpdateCallout(arg1, arg2, arg3) {
+  return window['go']['main']['App']['SendUpdateCallout'](arg1, arg2, arg3);
 }

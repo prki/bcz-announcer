@@ -8,7 +8,7 @@
     <div class="col">
       <div class="row row-cols-md-4">
         <div v-for="(card, idx) in cards" :key="idx">
-          <CalloutCard :gameName="Guilty" :p1Name="card.p1_name" :p2Name="card.p2_name" />
+          <CalloutCard :gameName="card.game_name" :p1Name="card.p1_name" :p2Name="card.p2_name" :id="card.callout_id"/>
         </div>
         <!--<CalloutCard gameName="Guilty Gear Xrd" p1Name="Pida" p2Name="Kidiot"/>
         <CalloutCard gameName="Guilty Gear Xrd" p1Name="Pida" p2Name="Kidiot"/>
@@ -38,11 +38,20 @@ import * as models from '../../wailsjs/go/models';
 });
 */
 
-const cards = ref<CalloutCard>([]);
+//type CalloutCardType = InstanceType<typeof CalloutCard>;
+
+type cardJson = {
+  game_name: string,
+  p1_name: string,
+  p2_name: string,
+  callout_id: string,
+};
+
+const cards = ref<cardJson[]>([]);
 
 wails.EventsOn("callout/update", (msg: models.main.Message) => {
   console.log("Received callout update message:", msg);
-  const msgJson: CalloutCard = JSON.parse(msg.message);  // This could be given a type since we know what the message is.
+  const msgJson: cardJson = JSON.parse(msg.message);  // This could be given a type since we know what the message is.
   console.log("Message as obj:", msgJson);
 
   cards.value.push(msgJson);
