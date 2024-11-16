@@ -25,6 +25,7 @@ type Message struct {
 }
 
 type SetupMatch struct {
+	GameName  string `json:"game_name"`
 	P1Name    string `json:"p1_name"`
 	P2Name    string `json:"p2_name"`
 	CalloutId string `json:"callout_id"`
@@ -136,7 +137,7 @@ func (a *App) SendChangeViewRequest(viewName string) {
 	log.Println("[INFO] [GO] Change view request to view " + viewName + " sent.")
 }
 
-func (a *App) SendUpdateCallout(p1Name, p2Name string) *SetupMatch {
+func (a *App) SendUpdateCallout(p1Name, p2Name, gameName string) *SetupMatch {
 	log.Println("[INFO] [GO] Sending update callout request: ", p1Name, p2Name)
 	if a.conn == nil {
 		log.Println("[ERROR] [GO] No connection established, unable to send request")
@@ -153,6 +154,7 @@ func (a *App) SendUpdateCallout(p1Name, p2Name string) *SetupMatch {
 	log.Println("[DEBUG] [GO] Generated UUID:", idStr)
 
 	matchInfo := &SetupMatch{
+		GameName:  gameName,
 		P1Name:    p1Name,
 		P2Name:    p2Name,
 		CalloutId: idStr,
