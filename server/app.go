@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -9,6 +10,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // App struct
@@ -22,6 +24,11 @@ type App struct {
 type Message struct {
 	Action  string `json:"action"`
 	Message string `json:"message"`
+}
+
+type AckMessage struct {
+	AckAction  string `json:"ack_action"`  // Action which has been ACK'd
+	AckMessage string `json:"ack_message"` // Additional message for ACK - e.g. card ID
 }
 
 type SetupMatch struct {
@@ -86,6 +93,21 @@ func (a *App) handleConnection(conn net.Conn) {
 	}
 }
 
+func (a *App) handleAckMessages() {
+	decoder := json.NewDecoder(bufio.NewReader(a.conn))
+
+	for {
+		var ackMsg AckMessage
+		err := decoder.Decode(&ackMsg)
+		if err != nil {
+			log.Println("[GO] [ACKMSG] Error decoding message:", err)
+			continue
+		}
+
+		log.Println("[GO] [ACKMSG] Received ACK msg:", ackMsg)
+	}
+}
+
 func (a *App) handleServer() {
 	log.Println("[INFO] [GO] Handling server, awaiting connection")
 
@@ -99,6 +121,7 @@ func (a *App) handleServer() {
 
 		log.Println("[INFO] [GO] Client connected.")
 		a.conn = conn
+		a.handleAckMessages()
 		//go a.handleConnection(conn)
 	}
 }
@@ -135,6 +158,12 @@ func (a *App) SendChangeViewRequest(viewName string) {
 	}
 
 	log.Println("[INFO] [GO] Change view request to view " + viewName + " sent.")
+}
+
+// [TODO] Lock behind mutex in case someone clicks very fast :)
+func (a *App) addCalloutToStorage(matchInfo SetupMatch) {
+	a.existingCallouts = append(a.existingCallouts, matchInfo)
+	runtime.EventsEmit(a.ctx, "callouts/new", matchInfo)
 }
 
 func (a *App) SendUpdateCallout(p1Name, p2Name, gameName string) *SetupMatch {
@@ -183,7 +212,8 @@ func (a *App) SendUpdateCallout(p1Name, p2Name, gameName string) *SetupMatch {
 	// information that it got through and it's there.
 	// Leaving it as is for now for debug purposes.
 	log.Println("[DEBUG] [GO] Adding callout to storage.")
-	a.existingCallouts = append(a.existingCallouts, *matchInfo)
+	a.addCalloutToStorage(*matchInfo)
+	//a.existingCallouts = append(a.existingCallouts, *matchInfo)
 	log.Println("[DEBUG] [GO] Callouts in storage:", a.existingCallouts)
 
 	return matchInfo
