@@ -1,12 +1,12 @@
 <template>
-  <div class="row"> 
+  <div class="row border bg-light"> 
     <div class="col">
-      <h3>I am match callout listing component</h3>
-
-      <h4>Created cards:</h4>
+      <h2>Created cards:</h2>
       <ul class="list-group">
-        <li class="list-group-item d-flex justify-content-between" v-for="(card, idx) in cards" :key="idx">
-          {{card.p1Name}} vs {{ card.p2Name }}
+        <li class="list-group-item d-flex justify-content-between align-items-center" v-for="(card, idx) in cards" :key="idx">
+          <div>
+            <b>{{card.p1Name}}</b> vs <b>{{ card.p2Name }}</b>
+          </div>
           <div class="d-flex gap-1">
             <button type="button" class="btn btn-success" @click="sendColorUpdate(card, 'default')">Default color</button>
             <button type="button" class="btn btn-warning" @click="sendColorUpdate(card, 'dq')">Color DQ</button>
