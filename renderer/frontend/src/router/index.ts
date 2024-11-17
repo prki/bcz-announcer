@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import Main from '../views/Main.vue';
 import MatchCallout from '../views/MatchCallout.vue';
 import TextDisplay from '../views/TextDisplay.vue';
+import TableResults from '../views/TableResults.vue';
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -20,6 +21,11 @@ const router = createRouter({
       path: "/textdisplay",
       name: "textdisplay",
       component: TextDisplay
+    },
+    {
+      path: "/tableresults",
+      name: "tableresults",
+      component: TableResults
     }
   ]
 });

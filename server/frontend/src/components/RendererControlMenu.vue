@@ -5,6 +5,7 @@
       <button class="btn btn-primary" @click="changeView('/')">Change view Main</button>
       <button class="btn btn-primary" @click="changeView('/matchcallout')">Change view MatchCallout</button>
       <button class="btn btn-primary" @click="changeView('/textdisplay')">Change view TextDisplay</button>
+      <button class="btn btn-primary" @click="changeView('/tableresults')">Change view TableResults</button>
     </div>
   </div>
 </template>
