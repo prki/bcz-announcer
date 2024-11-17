@@ -1,7 +1,7 @@
 <template>
-  <div class="row"> 
+  <div class="row border bg-light mt-1"> 
+    <h2>Create new callout card</h2>
     <div class="col">
-      <h3>I am Match Callout Create component</h3>
       <form>
         <div class="row">
           <div class="col">
@@ -16,7 +16,7 @@
             </select>
           </div>
         </div>
-        <div class="row">
+        <div class="row mb-1">
           <div class="col-6">
             <label for="match-p1" class="form-label">Player 1 name</label>
             <input type="text" class="form-control" id="match-p1" v-model="state.p1Name">
@@ -25,7 +25,13 @@
             <label for="match-p2" class="form-label">Player 2 name</label>
             <input type="text" class="form-control" id="match-p2" v-model="state.p2Name">
           </div>
-          <button type="button" class="btn btn-primary" @click="createNewCallout()">Create callout card</button>
+        </div>
+        <div class="row mt-2 d-flex justify-content-center">
+          <div class="col">
+            <div class="text-center">
+              <button type="button" class="btn btn-primary" @click="createNewCallout()">Create callout card</button>
+            </div>
+          </div>
         </div>
       </form>
     </div>
