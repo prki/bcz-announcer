@@ -30,6 +30,10 @@ export function SendFooterUpdate(arg1) {
   return window['go']['main']['App']['SendFooterUpdate'](arg1);
 }
 
+export function SendHeaderUpdate(arg1) {
+  return window['go']['main']['App']['SendHeaderUpdate'](arg1);
+}
+
 export function SendMessage() {
   return window['go']['main']['App']['SendMessage']();
 }
