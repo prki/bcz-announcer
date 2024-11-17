@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"net"
@@ -13,6 +14,9 @@ import (
 	"github.com/google/uuid"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
+
+// [TODO] I don't think we even need the existing callouts structure on backend.
+// Will simplify things
 
 // App struct
 type App struct {
@@ -132,7 +136,11 @@ func (a *App) handleAckMessages() {
 			continue
 		}
 
-		log.Println("[GO] [ACKMSG] Received ACK msg:", ackMsg)
+		if ackMsg.AckAction == "callout/delete" {
+			cardId := ackMsg.AckMessage
+			log.Println("[GO] [ACKMSG] Received ack on callout delete. Deleting card", cardId)
+			runtime.EventsEmit(a.ctx, "callout/delete", cardId)
+		}
 	}
 }
 
@@ -192,16 +200,16 @@ func (a *App) SendChangeViewRequest(viewName string) {
 func (a *App) addCalloutToStorage(matchInfo SetupMatch) {
 	//a.existingCallouts = append(a.existingCallouts, matchInfo)
 	a.callouts.AddToStorage(matchInfo)
-	runtime.EventsEmit(a.ctx, "callouts/new", matchInfo)
+	runtime.EventsEmit(a.ctx, "callout/new", matchInfo)
 }
 
 // [TODO] We are repeatedly initializing a JSON encoder. Could be initialized
 // on app level already.
-func (a *App) sendCalloutCardDeleteRequest(cardId string) {
+func (a *App) sendCalloutCardDeleteRequest(cardId string) error {
 	log.Println("[INFO] [GO] Sending callout card delete request, id:", cardId)
 	if a.conn == nil {
 		log.Println("[ERROR] [GO] No connection established, unable to send request")
-		return
+		return errors.New("no connection to renderer")
 	}
 
 	encoder := json.NewEncoder(a.conn)
@@ -214,23 +222,35 @@ func (a *App) sendCalloutCardDeleteRequest(cardId string) {
 	err := encoder.Encode(msg)
 	if err != nil {
 		log.Println("[ERROR] [GO] Error encoding card delete request:", err)
-		return
+		return errors.New("error encoding message")
 	}
 
 	log.Println("[INFO] [GO] Callout card id", cardId, "delete request sent.")
+	return nil
 }
 
+// Exported function for Frontend to delete callout card. Note that it does not
+// as a matter of fact delete the card - it only sends the request to the
+// renderer.
+// The deletion is done only as per ACK receive from renderer. This is to ensure
+// that the app never removes a card from admin listing, but it stays on renderer.
+// Better to have stale data on admin than on renderer :)
 func (a *App) DeleteCalloutCard(cardId string) {
-	log.Println("[DEBUG] Cards before delete:", a.callouts.existingCallouts)
+	//log.Println("[DEBUG] Cards before delete:", a.callouts.existingCallouts)
+	log.Println("[INFO] Deleting callout card id:", cardId)
 	// [TODO] Is it even valuable to have an internal storage? Probably not?
-	a.callouts.RemoveCalloutFromStorage(cardId)
+	//a.callouts.RemoveCalloutFromStorage(cardId)
 	// [TODO] Check condition, emit event only on success
 	// [TODO] Emit only when this is obtained from the renderer as ACK! Should be handled by a
 	// different function.
-	a.sendCalloutCardDeleteRequest(cardId)
-	runtime.EventsEmit(a.ctx, "callouts/delete", cardId)
-	log.Println("[DEBUG] Cards after delete:", a.callouts.existingCallouts)
+	err := a.sendCalloutCardDeleteRequest(cardId)
+	if err != nil {
+		log.Println("[ERROR] Attempted to delete callout card id:", cardId, "but connection to renderer failed.")
+		return
+	}
 
+	//runtime.EventsEmit(a.ctx, "callouts/delete", cardId)
+	//log.Println("[DEBUG] Cards after delete:", a.callouts.existingCallouts)
 }
 
 func (a *App) SendUpdateCallout(p1Name, p2Name, gameName string) *SetupMatch {

@@ -32,7 +32,7 @@ type CardDescription = {
 
 const cards = reactive<CardDescription[]>([]);
 
-wails.EventsOn("callouts/new", (match) => {
+wails.EventsOn("callout/new", (match) => {
   console.log("Adding match into list:", match);
   const newCard: CardDescription = {
     p1Name: match.p1_name,
@@ -44,7 +44,7 @@ wails.EventsOn("callouts/new", (match) => {
 });
 
 // [TODO] Isn't there a race condition? Is there only one event handled at once guaranteed? Should be? I think so?
-wails.EventsOn("callouts/delete", (cardId) => {
+wails.EventsOn("callout/delete", (cardId) => {
   console.log("[DEBUG] Attempting to delete card id:", cardId);
   const idx = cards.findIndex((card) => card.id === cardId);
   if (idx !== -1) {
