@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"sync"
 	"time"
 
 	"github.com/google/uuid"
@@ -15,10 +16,37 @@ import (
 
 // App struct
 type App struct {
-	ctx              context.Context
-	listener         net.Listener
-	conn             net.Conn
+	ctx      context.Context
+	listener net.Listener
+	conn     net.Conn
+	//existingCallouts []SetupMatch
+	callouts CalloutStorage
+}
+
+type CalloutStorage struct {
+	mu               sync.Mutex
 	existingCallouts []SetupMatch
+}
+
+func (cs *CalloutStorage) AddToStorage(match SetupMatch) {
+	cs.mu.Lock()
+	cs.existingCallouts = append(cs.existingCallouts, match)
+	cs.mu.Unlock()
+}
+
+func (cs *CalloutStorage) RemoveCalloutFromStorage(id string) bool {
+	cs.mu.Lock()
+	defer cs.mu.Unlock()
+
+	for idx, match := range cs.existingCallouts {
+		if match.CalloutId == id {
+			cs.existingCallouts = append(cs.existingCallouts[:idx], cs.existingCallouts[idx+1:]...)
+			return true
+		}
+	}
+
+	log.Println("[WARN] Attempted to remove card id:", id, "but card not found in storage!")
+	return false
 }
 
 type Message struct {
@@ -162,8 +190,18 @@ func (a *App) SendChangeViewRequest(viewName string) {
 
 // [TODO] Lock behind mutex in case someone clicks very fast :)
 func (a *App) addCalloutToStorage(matchInfo SetupMatch) {
-	a.existingCallouts = append(a.existingCallouts, matchInfo)
+	//a.existingCallouts = append(a.existingCallouts, matchInfo)
+	a.callouts.AddToStorage(matchInfo)
 	runtime.EventsEmit(a.ctx, "callouts/new", matchInfo)
+}
+
+func (a *App) DeleteCalloutCard(cardId string) {
+	log.Println("[DEBUG] Cards before delete:", a.callouts.existingCallouts)
+	a.callouts.RemoveCalloutFromStorage(cardId)
+	// [TODO] Check condition, emit event only on success
+	runtime.EventsEmit(a.ctx, "callouts/delete", cardId)
+	log.Println("[DEBUG] Cards after delete:", a.callouts.existingCallouts)
+
 }
 
 func (a *App) SendUpdateCallout(p1Name, p2Name, gameName string) *SetupMatch {
@@ -214,7 +252,8 @@ func (a *App) SendUpdateCallout(p1Name, p2Name, gameName string) *SetupMatch {
 	log.Println("[DEBUG] [GO] Adding callout to storage.")
 	a.addCalloutToStorage(*matchInfo)
 	//a.existingCallouts = append(a.existingCallouts, *matchInfo)
-	log.Println("[DEBUG] [GO] Callouts in storage:", a.existingCallouts)
+	// [TODO] Log should also have a mutex lock :-----)
+	log.Println("[DEBUG] [GO] Callouts in storage:", a.callouts.existingCallouts)
 
 	return matchInfo
 }
