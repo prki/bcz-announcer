@@ -22,6 +22,7 @@
 import { reactive } from 'vue';
 import * as wails from '../../wailsjs/runtime/runtime.js';
 import { DeleteCalloutCard } from '../../wailsjs/go/main/App';
+import { SendCalloutUpdate } from '../../wailsjs/go/main/App';
 
 type CardDescription = {
   p1Name: string,
@@ -58,10 +59,12 @@ wails.EventsOn("callout/delete", (cardId) => {
 
 function sendColorUpdate(card: CardDescription, colorType: string) {
   console.log("[DEBUG] Sending color update request. Card:", card, "colorType:", colorType);
+  SendCalloutUpdate(card.id, colorType);
 }
 
 function sendCardRemove(card: CardDescription) {
   console.log("[DEBUG] Sending card remove request. Card:", card);
+  // [TODO] Consider if anything should be returned / handled on frontend
   DeleteCalloutCard(card.id);
 }
 </script>
