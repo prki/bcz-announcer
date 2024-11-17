@@ -15,20 +15,6 @@
       </form>
     </div>
     <div class="col">
-      <!--<h2>Match callout view form</h2>
-      <form>
-        <div class="row">
-          <label for="match-a-p1" class="form-label">[A] Player 1 name</label>
-          <div class="col">
-            <input type="text" class="form-control" id="match-a-p1" v-model="state.A.p1Name">
-          </div>
-          <div class="col">
-            <input type="text" class="form-control" id="match-a-p2" v-model="state.A.p2Name">
-          </div>
-          <button type="button" class="btn btn-primary" @click="updateCalloutView()">Update view</button>
-        </div>
-      </form>
-      -->
       <MatchCallout />
     </div>
   </div>

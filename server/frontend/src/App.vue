@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 //import HelloWorld from './components/HelloWorld.vue'
 import Main from './views/Main.vue'
+import NavMenu from './components/NavMenu.vue';
+import RendererControlMenu from './components/RendererControlMenu.vue';
 </script>
 
 <template>
@@ -9,7 +11,14 @@ import Main from './views/Main.vue'
     <div class="row">
       <h1>BCZ 2024 Callout server</h1>
     </div>
-    <Main />
+    <!--<Main />-->
+    <RendererControlMenu />
+    <NavMenu />
+    <router-view v-slot:="{ Component }">
+      <KeepAlive>
+        <component :is="Component" />
+      </KeepAlive>
+    </router-view>
   </div>
 </template>
 
