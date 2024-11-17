@@ -1,7 +1,7 @@
 <template>
-  <div class="row"> 
+  <div class="row mb-4"> 
     <div class="col">
-      <h1>I am match callout view</h1>
+      <h1 class="text-center">Current matches</h1>
     </div>
   </div>
   <div class="row">

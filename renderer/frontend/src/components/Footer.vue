@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="col">
-      <div class="border bg-light mt-4">
+      <div class="border mt-4">
         <div v-html="state.footerHtml"></div>
       </div>
     </div>

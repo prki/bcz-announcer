@@ -1,19 +1,19 @@
 <template>
   <div class="row header-row-size mt-4 gx-4">
     <div class="col-8">
-      <div class="border bg-light p-3 pb-4 pt-4">
+      <div class="border p-3 pb-4 pt-4">
         <div class="row">
-          <div class="col-6 offset-md-1 bg-light border">
+          <div class="col-6 offset-md-1 border">
             <div v-html="state.headerText"></div>
           </div>
-          <div class="col-3 offset-md-1 bg-light border">
+          <div class="col-3 offset-md-1 border">
             <div v-html="state.headerImage"></div>
           </div>
         </div>
       </div>
     </div>
     <div class="col-4">
-      <div class="p-3 border bg-light pb-4 pt-4">
+      <div class="p-3 border pb-4 pt-4">
         <p>BCZ logo</p>
       </div>
     </div>

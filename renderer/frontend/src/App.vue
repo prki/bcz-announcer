@@ -63,7 +63,7 @@ wails.EventsOn("control/change_view", (msg: models.main.Message) => {
       <div class="col-8">
         <div class="row">
           <div class="col">
-            <div class="border bg-light content-row-size">
+            <div class="border content-row-size">
               <router-view v-slot="{ Component }">
               <KeepAlive>
                 <component :is="Component" />
@@ -76,7 +76,7 @@ wails.EventsOn("control/change_view", (msg: models.main.Message) => {
         <Footer />
       </div>
       <div class="col-4 d-flex">
-        <div class="border bg-light flex-grow-1">
+        <div class="border flex-grow-1">
           <p>Side panel</p>
         </div>
       </div>
