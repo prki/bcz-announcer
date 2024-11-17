@@ -5,7 +5,14 @@
 
       <h4>Created cards:</h4>
       <ul class="list-group">
-        <li class="list-group-item" v-for="(card, idx) in cards" :key="idx">{{card.p1Name}} vs {{ card.p2Name }} || {{ card.ackState }}</li>
+        <li class="list-group-item d-flex justify-content-between" v-for="(card, idx) in cards" :key="idx">
+          {{card.p1Name}} vs {{ card.p2Name }}
+          <div class="d-flex gap-1">
+            <button type="button" class="btn btn-success" @click="sendColorUpdate(card, 'default')">Default color</button>
+            <button type="button" class="btn btn-warning" @click="sendColorUpdate(card, 'dq')">Color DQ</button>
+            <button type="button" class="btn btn-danger" @click="sendCardRemove(card)">Remove card</button>
+          </div>
+        </li>
       </ul>
     </div>
   </div>
@@ -14,6 +21,7 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
 import * as wails from '../../wailsjs/runtime/runtime.js';
+import { DeleteCalloutCard } from '../../wailsjs/go/main/App';
 
 type CardDescription = {
   p1Name: string,
@@ -34,6 +42,29 @@ wails.EventsOn("callouts/new", (match) => {
   };
   cards.push(newCard);
 });
+
+// [TODO] Isn't there a race condition? Is there only one event handled at once guaranteed? Should be? I think so?
+
+wails.EventsOn("callouts/delete", (cardId) => {
+  console.log("[DEBUG] Attempting to delete card id:", cardId);
+  const idx = cards.findIndex((card) => card.id === cardId);
+  if (idx !== -1) {
+    cards.splice(idx, 1);
+  }
+  // [TODO] Consider some logging component on frontend
+  else {
+    console.log("[ERROR] Attempted to delete callout card, but not found");
+  }
+});
+
+function sendColorUpdate(card: CardDescription, colorType: string) {
+  console.log("[DEBUG] Sending color update request. Card:", card, "colorType:", colorType);
+}
+
+function sendCardRemove(card: CardDescription) {
+  console.log("[DEBUG] Sending card remove request. Card:", card);
+  DeleteCalloutCard(card.id);
+}
 </script>
 
 <style scoped>
