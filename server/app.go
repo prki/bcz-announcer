@@ -369,7 +369,6 @@ func (a *App) SendFooterUpdate(content string) {
 	}
 
 	// [TODO] Create encoder on top level, no reason to initialize every time
-
 	encoder := json.NewEncoder(a.conn)
 
 	err := encoder.Encode(msg)
@@ -379,6 +378,33 @@ func (a *App) SendFooterUpdate(content string) {
 	}
 
 	log.Println("[INFO] Sent footer content update request.")
+}
+
+// [TODO] Function is essentially the same as `SendFooterUpdate()`. Considering that,
+// isn't there a way to just have a general handling function for sending messages?
+// => there should be - these fns just prepare the message and have a generic `sendMessageToRenderer()` fn
+func (a *App) SendHeaderUpdate(content string) {
+	log.Println("[INFO] Sending header content update request. Content:", content)
+	if a.conn == nil {
+		log.Println("[ERROR] Attempted to send footer update request, conn was nil")
+		return
+	}
+
+	msg := Message{
+		Action:  "header/update",
+		Message: content,
+	}
+
+	// [TODO] Create encoder on top level, no reason to initialize every time
+	encoder := json.NewEncoder(a.conn)
+
+	err := encoder.Encode(msg)
+	if err != nil {
+		log.Println("[ERROR] Error encoding header update request:", err)
+		return
+	}
+
+	log.Println("[INFO] Sent header update request.")
 
 }
 

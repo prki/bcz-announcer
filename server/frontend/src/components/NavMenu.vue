@@ -11,6 +11,9 @@
         <li class="nav-item">
           <RouterLink class="nav-link" to="/footer">Footer</RouterLink>
         </li>
+        <li class="nav-item">
+          <RouterLink class="nav-link" to="/header">Header</RouterLink>
+        </li>
       </ul>
     </div>
   </div>

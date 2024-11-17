@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router';
 import * as models from '../wailsjs/go/models';
 import * as wails from '../wailsjs/runtime/runtime.js';
 import Footer from './components/Footer.vue';
+import Header from './components/Header.vue';
 const router = useRouter();
 
 // Preload routes by navigating through them. This is important so that data
@@ -34,7 +35,8 @@ wails.EventsOn("control/change_view", (msg: models.main.Message) => {
   <!--<img id="logo" alt="Wails logo" src="./assets/images/logo-universal.png"/>-->
   <div class="container-fluid px-4">
     <!-- Header row -->
-    <div class="row header-row-size mt-4 gx-4">
+    <Header />
+    <!--<div class="row header-row-size mt-4 gx-4">
       <div class="col-8">
         <div class="border bg-light p-3 pb-4 pt-4">
           <div class="row">
@@ -53,6 +55,7 @@ wails.EventsOn("control/change_view", (msg: models.main.Message) => {
         </div>
       </div>
     </div>
+    -->
     <!--<Main />-->
 
     <!-- Content row -->

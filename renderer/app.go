@@ -101,11 +101,10 @@ func (a *App) handleConnection() {
 				log.Println("[ERROR] [GO] Error encoding ack msg:", err)
 			}
 			*/
-			// Delete callout card request. Message: UUID of card as string
 		} else if msg.Action == "callout/update" {
 			runtime.EventsEmit(a.ctx, "callout/update", msg)
 		} else if msg.Action == "callout/delete" {
-			cardId := msg.Message
+			cardId := msg.Message // Message: UUID of card as string
 			err = a.sendCalloutDeleteAck(encoder, cardId)
 			if err != nil {
 				log.Println("[ERROR] [GO] Attempted to send callout delete ACK, but failed. Not removing.")
@@ -115,6 +114,10 @@ func (a *App) handleConnection() {
 			runtime.EventsEmit(a.ctx, "callout/delete", msg)
 		} else if msg.Action == "footer/update" {
 			runtime.EventsEmit(a.ctx, "footer/update", msg)
+		} else if msg.Action == "header/update" {
+			runtime.EventsEmit(a.ctx, "header/update", msg)
+		} else {
+			log.Println("[ERROR] Unhandled action:", msg.Action)
 		}
 	}
 }
