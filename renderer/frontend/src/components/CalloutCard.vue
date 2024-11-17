@@ -1,14 +1,14 @@
 <template>
   <div class="col">
     <!--<div class="card" style="width: 18rem;">-->
-    <div class="card">
-      <div class="card-header">
-        <h5>{{ friendlyGameTitle(gameName) }}</h5>
+    <div class="card card-font bg-transparent">
+      <div class="card-header text-center">
+        {{ friendlyGameTitle(gameName) }}
       </div>
-      <div class="card-body" :class="status">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">{{ p1Name }}</li>
-          <li class="list-group-item">{{ p2Name }}</li>
+      <div class="card-body bg-transparent" :class="status">
+        <ul class="list-group list-group-flush text-center">
+          <li class="list-group-item bg-transparent card-font">{{ p1Name }}</li>
+          <li class="list-group-item bg-transparent card-font">{{ p2Name }}</li>
         </ul>
       </div>
     </div>
@@ -54,6 +54,13 @@ function friendlyGameTitle(gamename: string): string {
 </script>
 
 <style scoped>
+.card-font {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 28px;
+  color: white;
+}
+
 .default {
   background-color: green;
 }
