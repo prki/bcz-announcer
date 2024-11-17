@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"net"
@@ -56,6 +57,22 @@ func (a *App) shutdown(ctx context.Context) {
 	}
 }
 
+func (a *App) sendCalloutDeleteAck(encoder *json.Encoder, cardId string) error {
+	ackMsg := AckMessage{
+		AckAction:  "callout/delete",
+		AckMessage: cardId,
+	}
+
+	log.Println("[INFO] Sending callout delete ACK for cardId:", cardId)
+	err := encoder.Encode(ackMsg)
+	if err != nil {
+		log.Println("[ERROR] Attempted to send callout delete ack, but received err:", err)
+		return errors.New("ack connection failed")
+	}
+
+	return nil
+}
+
 func (a *App) handleConnection() {
 	decoder := json.NewDecoder(bufio.NewReader(a.conn))
 	encoder := json.NewEncoder(a.conn)
@@ -82,8 +99,15 @@ func (a *App) handleConnection() {
 			if err != nil {
 				log.Println("[ERROR] [GO] Error encoding ack msg:", err)
 			}
+			// Delete callout card request. Message: UUID of card as string
 		} else if msg.Action == "callout/delete" {
-			// [TODO] Send ACK
+			cardId := msg.Message
+			err = a.sendCalloutDeleteAck(encoder, cardId)
+			if err != nil {
+				log.Println("[ERROR] [GO] Attempted to send callout delete ACK, but failed. Not removing.")
+				continue
+			}
+
 			runtime.EventsEmit(a.ctx, "callout/delete", msg)
 		}
 	}
