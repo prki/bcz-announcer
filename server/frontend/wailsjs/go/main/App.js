@@ -26,6 +26,10 @@ export function SendChangeViewRequest(arg1) {
   return window['go']['main']['App']['SendChangeViewRequest'](arg1);
 }
 
+export function SendFooterUpdate(arg1) {
+  return window['go']['main']['App']['SendFooterUpdate'](arg1);
+}
+
 export function SendMessage() {
   return window['go']['main']['App']['SendMessage']();
 }

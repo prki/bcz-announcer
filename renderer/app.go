@@ -113,6 +113,8 @@ func (a *App) handleConnection() {
 			}
 
 			runtime.EventsEmit(a.ctx, "callout/delete", msg)
+		} else if msg.Action == "footer/update" {
+			runtime.EventsEmit(a.ctx, "footer/update", msg)
 		}
 	}
 }
