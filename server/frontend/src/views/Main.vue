@@ -1,8 +1,9 @@
 <template>
   <div class="row">
-    <div class="col">
+    <div class="col gap-1 d-flex">
       <button class="btn btn-primary" @click="changeView('/')">Change view Main</button>
       <button class="btn btn-primary" @click="changeView('/matchcallout')">Change view MatchCallout</button>
+      <button class="btn btn-primary" @click="changeView('/textdisplay')">Change view TextDisplay</button>
     </div>
   </div>
 

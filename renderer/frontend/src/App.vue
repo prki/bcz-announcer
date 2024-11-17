@@ -9,8 +9,13 @@ const router = useRouter();
 // Preload routes by navigating through them. This is important so that data
 // can be sent into a particular view without it having been opened yet =>
 // add all possible router views into the cached tree.
+// [TODO] There **must** be a better solution than this. Even if this preloading
+// is done in a loop, it should not have to be hard coded like this. To find out
+// at some point, though this works for now.
 router.push("/matchcallout").then(() => {
-router.push("/")
+  router.push("/textdisplay").then(() => {
+    router.push("/")
+  });
 });
 
 wails.EventsOn("control/change_view", (msg: models.main.Message) => {
