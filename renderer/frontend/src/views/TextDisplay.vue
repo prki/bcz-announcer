@@ -1,0 +1,13 @@
+<template>
+  <div class="row">
+    <div class="col">
+      <h1>I am text display view</h1>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+</script>
+
+<style scoped>
+</style>

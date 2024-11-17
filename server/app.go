@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"log"
 	"net"
 	"sync"
@@ -133,6 +134,10 @@ func (a *App) handleAckMessages() {
 		err := decoder.Decode(&ackMsg)
 		if err != nil {
 			log.Println("[GO] [ACKMSG] Error decoding message:", err)
+			if err == io.EOF {
+				log.Println("[ERROR] Got EOF on AckMessage listener, ending loop")
+				return
+			} // else if json error/timeout/.... For now, retry.
 			continue
 		}
 
