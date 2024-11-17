@@ -15,7 +15,9 @@ const router = useRouter();
 // at some point, though this works for now.
 router.push("/matchcallout").then(() => {
   router.push("/textdisplay").then(() => {
-    router.push("/")
+    router.push("/tableresults").then(() => {
+      router.push("/")
+    });
   });
 });
 
