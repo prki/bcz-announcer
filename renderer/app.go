@@ -88,9 +88,10 @@ func (a *App) handleConnection() {
 		fmt.Println("[INFO] [GO] Received message: ", msg)
 		if msg.Action == "control/change_view" {
 			runtime.EventsEmit(a.ctx, "control/change_view", msg)
-		} else if msg.Action == "callout/update" {
-			runtime.EventsEmit(a.ctx, "callout/update", msg)
-			ackMsg := AckMessage{
+		} else if msg.Action == "callout/new" {
+			runtime.EventsEmit(a.ctx, "callout/new", msg)
+			// [TODO] Delete/write properly in case we use ACK for new callout in any way.
+			/*ackMsg := AckMessage{
 				AckAction:  "callout/update",
 				AckMessage: "Test message",
 			}
@@ -99,7 +100,10 @@ func (a *App) handleConnection() {
 			if err != nil {
 				log.Println("[ERROR] [GO] Error encoding ack msg:", err)
 			}
+			*/
 			// Delete callout card request. Message: UUID of card as string
+		} else if msg.Action == "callout/update" {
+			runtime.EventsEmit(a.ctx, "callout/update", msg)
 		} else if msg.Action == "callout/delete" {
 			cardId := msg.Message
 			err = a.sendCalloutDeleteAck(encoder, cardId)

@@ -10,6 +10,18 @@ export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
 }
 
+export function ReturnCalloutUpdateMessage(arg1) {
+  return window['go']['main']['App']['ReturnCalloutUpdateMessage'](arg1);
+}
+
+export function ReturnSetupMatch(arg1) {
+  return window['go']['main']['App']['ReturnSetupMatch'](arg1);
+}
+
+export function SendCalloutUpdate(arg1, arg2) {
+  return window['go']['main']['App']['SendCalloutUpdate'](arg1, arg2);
+}
+
 export function SendChangeViewRequest(arg1) {
   return window['go']['main']['App']['SendChangeViewRequest'](arg1);
 }

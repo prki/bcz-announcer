@@ -5,7 +5,7 @@
       <div class="card-header">
         <h5>{{ friendlyGameTitle(gameName) }}</h5>
       </div>
-      <div class="card-body">
+      <div class="card-body" :class="status">
         <ul class="list-group list-group-flush">
           <li class="list-group-item">{{ p1Name }}</li>
           <li class="list-group-item">{{ p2Name }}</li>
@@ -16,8 +16,21 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps(['gameName', 'p1Name', 'p2Name', 'id']);
-console.log(props.id);
+import { ref } from 'vue';
+const props = defineProps(['gameName', 'p1Name', 'p2Name', 'id', 'state']);
+console.log(props.state);
+
+const status = ref('default');
+const id = props.id;
+
+function changeStatus(newStatus: string) {
+  status.value = newStatus;
+}
+
+defineExpose({
+  changeStatus,
+  id
+});
 
 // Simple switch/case since low number of options/static content
 function friendlyGameTitle(gamename: string): string {
@@ -41,4 +54,10 @@ function friendlyGameTitle(gamename: string): string {
 </script>
 
 <style scoped>
+.default {
+  background-color: green;
+}
+.dq {
+  background-color: yellow;
+}
 </style>

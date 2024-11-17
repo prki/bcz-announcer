@@ -59,6 +59,11 @@ type Message struct {
 	Message string `json:"message"`
 }
 
+type CalloutUpdateMessage struct {
+	CalloutId     string `json:"callout_id"`
+	UpdateRequest string `json:"update_request"` // change color, ... => ideally write down options
+}
+
 type AckMessage struct {
 	AckAction  string `json:"ack_action"`  // Action which has been ACK'd
 	AckMessage string `json:"ack_message"` // Additional message for ACK - e.g. card ID
@@ -163,6 +168,7 @@ func (a *App) handleServer() {
 		log.Println("[INFO] [GO] Client connected.")
 		a.conn = conn
 		a.handleAckMessages()
+		a.conn = nil // re-set to nil in case conn is lost so that functions don't poop their pants
 		//go a.handleConnection(conn)
 	}
 }
@@ -258,6 +264,8 @@ func (a *App) DeleteCalloutCard(cardId string) {
 	//log.Println("[DEBUG] Cards after delete:", a.callouts.existingCallouts)
 }
 
+// [TODO] Rename to SendNewCallout or something similar. Update should be used for
+// status updates, not new cards.
 func (a *App) SendUpdateCallout(p1Name, p2Name, gameName string) *SetupMatch {
 	log.Println("[INFO] [GO] Sending update callout request: ", p1Name, p2Name)
 	if a.conn == nil {
@@ -282,15 +290,15 @@ func (a *App) SendUpdateCallout(p1Name, p2Name, gameName string) *SetupMatch {
 	}
 
 	matchInfoJson, err := json.Marshal(matchInfo)
-	encoder := json.NewEncoder(a.conn)
-
 	if err != nil {
-		log.Println("[ERROR] [GO] Error creating JSON message about state info: ", err)
+		log.Println("[ERROR] Error building JSON for new callout, id:", idStr, "stopping")
 		return nil
 	}
 
+	encoder := json.NewEncoder(a.conn)
+
 	msg := Message{
-		Action:  "callout/update",
+		Action:  "callout/new",
 		Message: string(matchInfoJson),
 	}
 
@@ -312,7 +320,47 @@ func (a *App) SendUpdateCallout(p1Name, p2Name, gameName string) *SetupMatch {
 	return matchInfo
 }
 
+func (a *App) SendCalloutUpdate(cardId, updateMsg string) {
+	log.Println("[INFO] Sending callout update request, card id:", cardId, "msg:", updateMsg)
+	if a.conn == nil {
+		log.Println("[ERROR] Attempted to send callout update request for card:", cardId, "but conn was nil")
+		return
+	}
+
+	msgObj := CalloutUpdateMessage{
+		CalloutId:     cardId,
+		UpdateRequest: updateMsg,
+	}
+
+	msgJson, err := json.Marshal(msgObj)
+	if err != nil {
+		log.Println("[ERROR] Error building JSON for callout update, id:", cardId, "stopping")
+		return
+	}
+
+	// [TODO] Encoder should be a part of the state, no reason to initialize every time
+	encoder := json.NewEncoder(a.conn)
+
+	msg := Message{
+		Action:  "callout/update",
+		Message: string(msgJson),
+	}
+
+	err = encoder.Encode(msg)
+	if err != nil {
+		log.Println("[ERROR] Error encoding update callout request: ", err)
+		return
+	}
+
+	log.Println("[INFO] Sent callout update request, card id:", cardId)
+}
+
 // Function created so that wails models generate SetupMatch type
-func (a *App) returnSetupMatch(matchInfo SetupMatch) SetupMatch {
+func (a *App) ReturnSetupMatch(matchInfo SetupMatch) SetupMatch {
 	return matchInfo
+}
+
+// Function created so that wails models generate CalloutUpdateMessage type
+func (a *App) ReturnCalloutUpdateMessage(cupdatemsg CalloutUpdateMessage) CalloutUpdateMessage {
+	return cupdatemsg
 }
