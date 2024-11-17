@@ -355,6 +355,33 @@ func (a *App) SendCalloutUpdate(cardId, updateMsg string) {
 	log.Println("[INFO] Sent callout update request, card id:", cardId)
 }
 
+func (a *App) SendFooterUpdate(content string) {
+	log.Println("[INFO] Sending footer content update request. Content:", content)
+	if a.conn == nil {
+		// [TODO] Consider emiting some control event showing an alert/error in frontend
+		log.Println("[ERROR] Attempted to send footer update request, conn was nil")
+		return
+	}
+
+	msg := Message{
+		Action:  "footer/update",
+		Message: content,
+	}
+
+	// [TODO] Create encoder on top level, no reason to initialize every time
+
+	encoder := json.NewEncoder(a.conn)
+
+	err := encoder.Encode(msg)
+	if err != nil {
+		log.Println("[ERROR] Error encoding footer update request:", err)
+		return
+	}
+
+	log.Println("[INFO] Sent footer content update request.")
+
+}
+
 // Function created so that wails models generate SetupMatch type
 func (a *App) ReturnSetupMatch(matchInfo SetupMatch) SetupMatch {
 	return matchInfo

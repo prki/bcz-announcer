@@ -4,6 +4,7 @@
 import { useRouter } from 'vue-router';
 import * as models from '../wailsjs/go/models';
 import * as wails from '../wailsjs/runtime/runtime.js';
+import Footer from './components/Footer.vue';
 const router = useRouter();
 
 // Preload routes by navigating through them. This is important so that data
@@ -67,13 +68,7 @@ wails.EventsOn("control/change_view", (msg: models.main.Message) => {
           </div>
         </div>
         <!-- Footer-->
-        <div class="row">
-          <div class="col">
-            <div class="border bg-light mt-4">
-              <p>Footer 2</p>
-            </div>
-          </div>
-        </div>
+        <Footer />
       </div>
       <div class="col-4 d-flex">
         <div class="border bg-light flex-grow-1">

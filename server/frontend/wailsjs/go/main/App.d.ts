@@ -14,6 +14,8 @@ export function SendCalloutUpdate(arg1:string,arg2:string):Promise<void>;
 
 export function SendChangeViewRequest(arg1:string):Promise<void>;
 
+export function SendFooterUpdate(arg1:string):Promise<void>;
+
 export function SendMessage():Promise<string>;
 
 export function SendUpdateCallout(arg1:string,arg2:string,arg3:string):Promise<main.SetupMatch>;

@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row mb-4">
     <div class="col">
       <ul class="nav nav-tabs">
         <li class="nav-item">
@@ -7,6 +7,9 @@
         </li>
         <li class="nav-item">
           <RouterLink class="nav-link" to="/callout">Callouts</RouterLink>
+        </li>
+        <li class="nav-item">
+          <RouterLink class="nav-link" to="/footer">Footer</RouterLink>
         </li>
       </ul>
     </div>
