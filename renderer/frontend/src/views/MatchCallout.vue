@@ -54,7 +54,7 @@ type cardUpdateJson = {
   update_request: string,
 };
 
-const calloutCardRef = useTemplateRef<CalloutCard>("calloutCards");
+const calloutCardRef = useTemplateRef<typeof CalloutCard>("calloutCards");
 
 const cards = ref<cardJson[]>([]);
 
@@ -64,9 +64,6 @@ wails.EventsOn("callout/new", (msg: models.main.Message) => {
   console.log("Message as obj:", msgJson);
 
   cards.value.push(msgJson);
-
-  //state.A.p1Name = msgJson.p1_name;
-  //state.A.p2Name = msgJson.p2_name;
 });
 
 wails.EventsOn("callout/update", (msg: models.main.Message) => {
@@ -74,8 +71,13 @@ wails.EventsOn("callout/update", (msg: models.main.Message) => {
 
   const updateMsgJson: cardUpdateJson = JSON.parse(msg.message);
 
-  const cardToUpdate = calloutCardRef.value.find((card: CalloutCard) => card.id === updateMsgJson.callout_id);
+  if (calloutCardRef.value === null) {
+    console.log("No callout cards in calloutCardRef, cannot update. Retry.");
+    return
+  }
+  const cardToUpdate = calloutCardRef.value.find((card: typeof CalloutCard) => card.id === updateMsgJson.callout_id);
   console.log("Card to update:", cardToUpdate);
+
   if (cardToUpdate !== undefined) {
     cardToUpdate.changeStatus(updateMsgJson.update_request);
   } else {
