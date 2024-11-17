@@ -59,6 +59,17 @@ wails.EventsOn("callout/update", (msg: models.main.Message) => {
   //state.A.p1Name = msgJson.p1_name;
   //state.A.p2Name = msgJson.p2_name;
 });
+
+wails.EventsOn("callout/delete", (msg: models.main.Message) => {
+  console.log("[INFO] Received callout delete message:", msg);
+  const idx = cards.value.findIndex((card) => card.callout_id === msg.message); 
+  if (idx !== -1) {
+    cards.value.splice(idx, 1);
+  }
+  else {
+    console.log("[ERROR] No card with id:", msg.message, "found!")
+  }
+});
 </script>
 
 <style scoped>

@@ -195,10 +195,39 @@ func (a *App) addCalloutToStorage(matchInfo SetupMatch) {
 	runtime.EventsEmit(a.ctx, "callouts/new", matchInfo)
 }
 
+// [TODO] We are repeatedly initializing a JSON encoder. Could be initialized
+// on app level already.
+func (a *App) sendCalloutCardDeleteRequest(cardId string) {
+	log.Println("[INFO] [GO] Sending callout card delete request, id:", cardId)
+	if a.conn == nil {
+		log.Println("[ERROR] [GO] No connection established, unable to send request")
+		return
+	}
+
+	encoder := json.NewEncoder(a.conn)
+
+	msg := Message{
+		Action:  "callout/delete",
+		Message: cardId,
+	}
+
+	err := encoder.Encode(msg)
+	if err != nil {
+		log.Println("[ERROR] [GO] Error encoding card delete request:", err)
+		return
+	}
+
+	log.Println("[INFO] [GO] Callout card id", cardId, "delete request sent.")
+}
+
 func (a *App) DeleteCalloutCard(cardId string) {
 	log.Println("[DEBUG] Cards before delete:", a.callouts.existingCallouts)
+	// [TODO] Is it even valuable to have an internal storage? Probably not?
 	a.callouts.RemoveCalloutFromStorage(cardId)
 	// [TODO] Check condition, emit event only on success
+	// [TODO] Emit only when this is obtained from the renderer as ACK! Should be handled by a
+	// different function.
+	a.sendCalloutCardDeleteRequest(cardId)
 	runtime.EventsEmit(a.ctx, "callouts/delete", cardId)
 	log.Println("[DEBUG] Cards after delete:", a.callouts.existingCallouts)
 

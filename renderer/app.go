@@ -82,6 +82,9 @@ func (a *App) handleConnection() {
 			if err != nil {
 				log.Println("[ERROR] [GO] Error encoding ack msg:", err)
 			}
+		} else if msg.Action == "callout/delete" {
+			// [TODO] Send ACK
+			runtime.EventsEmit(a.ctx, "callout/delete", msg)
 		}
 	}
 }

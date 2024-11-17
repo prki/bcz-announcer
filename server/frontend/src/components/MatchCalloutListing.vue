@@ -44,7 +44,6 @@ wails.EventsOn("callouts/new", (match) => {
 });
 
 // [TODO] Isn't there a race condition? Is there only one event handled at once guaranteed? Should be? I think so?
-
 wails.EventsOn("callouts/delete", (cardId) => {
   console.log("[DEBUG] Attempting to delete card id:", cardId);
   const idx = cards.findIndex((card) => card.id === cardId);
