@@ -1,13 +1,22 @@
 <template>
-  <div class="row header-row-size mt-4 gx-4">
+  <div class="row header-row-size mt-4 align-items-stretch">
     <div class="col-8">
-      <div class="border p-3 pb-4 pt-4">
+      <!--Separated rows, ignore for now.-->
+      <!--<div class="border p-3 pb-4 pt-4">
         <div class="row">
           <div class="col-6 offset-md-1 border">
             <div v-html="state.headerText"></div>
           </div>
           <div class="col-3 offset-md-1 border">
             <div v-html="state.headerImage"></div>
+          </div>
+        </div>
+      </div>
+      -->
+      <div class="row h-100">
+        <div class="col h-100">
+          <div class="border h-100 d-flex align-items-center header-text justify-content-center px-2">
+            <div v-html="state.headerText"></div>
           </div>
         </div>
       </div>
@@ -37,4 +46,10 @@ wails.EventsOn("header/update", (msg: models.main.Message) => {
 </script>
 
 <style scoped>
+.header-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 36px;
+  color: white;
+}
 </style>
