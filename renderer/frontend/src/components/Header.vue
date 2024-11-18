@@ -13,8 +13,8 @@
       </div>
     </div>
     <div class="col-4">
-      <div class="p-3 border pb-4 pt-4">
-        <p>BCZ logo</p>
+      <div class="border">
+        <img src="../assets/images/bcz_logo_horizontal.svg" class="img-fluid">
       </div>
     </div>
   </div>
