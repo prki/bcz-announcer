@@ -1,5 +1,5 @@
 <template>
-  <div class="row border bg-light mt-1"> 
+  <div class="row border mt-1"> 
     <h2>Create new callout card</h2>
     <div class="col">
       <form>

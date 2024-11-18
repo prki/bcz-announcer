@@ -23,4 +23,11 @@
 </script>
 
 <style scoped>
+.nav-link {
+  color: white;
+}
+
+.nav-link .active {
+  color: white;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="row border bg-light">
+  <div class="row border">
     <div class="col">
       <h2>Edit Footer</h2>
       <form>
@@ -18,7 +18,7 @@
     </div>
   </div>
 
-  <div class="row border bg-light mt-4">
+  <div class="row border mt-4">
     <div class="col">
       <p>Edit the bottom footer of the renderer. Text can be sent as direct text or direct HTML markup. Note that this <b>should only be used</b> for styling purposes - e.g. using bold/italics tags.</p>
     </div>

@@ -1,9 +1,9 @@
 <template>
-  <div class="row border bg-light"> 
+  <div class="row border mt-1"> 
     <div class="col">
       <h2>Created cards:</h2>
       <ul class="list-group">
-        <li class="list-group-item d-flex justify-content-between align-items-center" v-for="(card, idx) in cards" :key="idx">
+        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent" v-for="(card, idx) in cards" :key="idx">
           <div>
             <b>{{card.p1Name}}</b> vs <b>{{ card.p2Name }}</b>
           </div>
@@ -70,4 +70,7 @@ function sendCardRemove(card: CardDescription) {
 </script>
 
 <style scoped>
+.list-group-item {
+  color: white;
+}
 </style>
