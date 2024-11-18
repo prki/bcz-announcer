@@ -1,26 +1,13 @@
 <template>
-  <div class="row mb-4"> 
+  <div class="row mb-4 d-flex"> 
     <div class="col">
-      <h1 class="text-center">Current matches</h1>
+      <h1 class="text-center">CURRENT MATCHES</h1>
     </div>
   </div>
   <div class="row">
     <div class="col">
-      <div class="row row-cols-md-4">
-        <!--<div v-for="(card, idx) in cards" :key="idx" ref="calloutCards">
-          <CalloutCard :state="'default'" :gameName="card.game_name" :p1Name="card.p1_name" :p2Name="card.p2_name" :id="card.callout_id"/>
-        </div>
-        -->
+      <div class="row row-cols-md-4 justify-content-center align-items-center">
         <CalloutCard v-for="(card, idx) in cards" :key="idx" ref="calloutCards" :state="'default'" :gameName="card.game_name" :p1Name="card.p1_name" :p2Name="card.p2_name" :id="card.callout_id" />
-        <!--<CalloutCard gameName="Guilty Gear Xrd" p1Name="Pida" p2Name="Kidiot"/>
-        <CalloutCard gameName="Guilty Gear Xrd" p1Name="Pida" p2Name="Kidiot"/>
-        <CalloutCard gameName="Guilty Gear Xrd" p1Name="Pida" p2Name="Kidiot"/>
-        <CalloutCard gameName="Guilty Gear Xrd" p1Name="Pida" p2Name="Kidiot"/>
-
-        <CalloutCard gameName="Guilty Gear Xrd" p1Name="Pida" p2Name="Kidiot"/>
-        <CalloutCard gameName="Guilty Gear Xrd" p1Name="Pida" p2Name="Kidiot"/>
-        <CalloutCard gameName="Guilty Gear Xrd" p1Name="Pida" p2Name="Kidiot"/>
-        -->
       </div>
     </div>
   </div>
@@ -99,4 +86,8 @@ wails.EventsOn("callout/delete", (msg: models.main.Message) => {
 </script>
 
 <style scoped>
+h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+}
 </style>
