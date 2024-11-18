@@ -1,7 +1,8 @@
 <template>
   <div class="col">
     <!--<div class="card" style="width: 18rem;">-->
-    <div class="card card-font bg-transparent">
+    <!--<div class="card card-font bg-transparent">-->
+    <div class="card card-font bg-transparent" :class="{ border: status === 'dq', 'border-warning': status === 'dq' }" style="width: 18rem;">
       <div class="card-header text-center">
         {{ friendlyGameTitle(gameName) }}
       </div>
@@ -10,6 +11,7 @@
           <li class="list-group-item bg-transparent card-font">{{ p1Name }}</li>
           <li class="list-group-item bg-transparent card-font">{{ p2Name }}</li>
         </ul>
+        <p class="text-center" v-show="status === 'dq'" style="color: yellow;">DQ ALERT</p>
       </div>
     </div>
   </div>
