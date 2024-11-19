@@ -38,6 +38,10 @@ export function SendMessage() {
   return window['go']['main']['App']['SendMessage']();
 }
 
+export function SendTextdisplayUpdate(arg1) {
+  return window['go']['main']['App']['SendTextdisplayUpdate'](arg1);
+}
+
 export function SendUpdateCallout(arg1, arg2, arg3) {
   return window['go']['main']['App']['SendUpdateCallout'](arg1, arg2, arg3);
 }

@@ -46,7 +46,7 @@ import { SendUpdateCallout } from '../../wailsjs/go/main/App';
 const state = reactive({
   p1Name: 'Player 1 name',
   p2Name: 'Player 2 name',
-  gameName: 'gameNamePlaceholder',
+  gameName: 'bbcf',
 });
 
 // Function creating new callout.

@@ -4,6 +4,7 @@ import Index from '../views/Index.vue';
 import MatchCallout from '../views/MatchCallout.vue';
 import Footer from '../views/Footer.vue';
 import Header from '../views/Header.vue';
+import TextDisplay from '../views/TextDisplay.vue';
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -27,6 +28,11 @@ const router = createRouter({
       path: "/header",
       name: "header",
       component: Header
+    },
+    {
+      path: "/textdisplay",
+      name: "textdisplay",
+      component: TextDisplay
     }
   ]
 });

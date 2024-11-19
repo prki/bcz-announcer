@@ -380,6 +380,22 @@ func (a *App) SendFooterUpdate(content string) {
 	log.Println("[INFO] Sent footer content update request.")
 }
 
+func (a *App) SendTextdisplayUpdate(content string) {
+	msg := Message{
+		Action:  "textdisplay/update",
+		Message: content,
+	}
+
+	err := a.sendMessageToRenderer(msg)
+	if err == nil {
+		log.Println("[ERROR] Attempted to send text display update, but failed")
+		// [TODO] Try to figure out toasts/notifs and emit event to frontend
+		return
+	}
+
+	log.Println("[INFO] Sent text display update message to renderer:", msg)
+}
+
 // [TODO] Function is essentially the same as `SendFooterUpdate()`. Considering that,
 // isn't there a way to just have a general handling function for sending messages?
 // => there should be - these fns just prepare the message and have a generic `sendMessageToRenderer()` fn
@@ -406,6 +422,28 @@ func (a *App) SendHeaderUpdate(content string) {
 
 	log.Println("[INFO] Sent header update request.")
 
+}
+
+// Main function for sending prepared messages to the renderer.
+// Function handles communication. Returns error in case of an error.
+// Errors are not differentiated at this point since we don't have
+// any error handling of relevance between different types of errors.
+func (a *App) sendMessageToRenderer(msg Message) error {
+	if a.conn == nil {
+		log.Println("[ERROR] Attempted to send message:", msg, "conn was nil.")
+		return errors.New("conn error")
+	}
+
+	// [TODO] Define/initialize encoder on struct level, not on method/fn call
+	encoder := json.NewEncoder(a.conn)
+
+	err := encoder.Encode(msg)
+	if err != nil {
+		log.Println("[ERROR] Error encoding message:", msg)
+		return errors.New("encoding error")
+	}
+
+	return nil
 }
 
 // Function created so that wails models generate SetupMatch type

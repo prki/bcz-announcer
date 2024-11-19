@@ -7,7 +7,7 @@ import RendererControlMenu from './components/RendererControlMenu.vue';
 
 <template>
   <!--<img id="logo" alt="Wails logo" src="./assets/images/logo-universal.png"/>-->
-  <div class="container">
+  <div class="container" id="main-container">
     <div class="row">
       <h1>BCZ 2024 Callout server</h1>
     </div>
