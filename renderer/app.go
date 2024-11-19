@@ -116,6 +116,8 @@ func (a *App) handleConnection() {
 			runtime.EventsEmit(a.ctx, "footer/update", msg)
 		} else if msg.Action == "header/update" {
 			runtime.EventsEmit(a.ctx, "header/update", msg)
+		} else if msg.Action == "textdisplay/update" {
+			runtime.EventsEmit(a.ctx, "textdisplay/update", msg)
 		} else {
 			log.Println("[ERROR] Unhandled action:", msg.Action)
 		}

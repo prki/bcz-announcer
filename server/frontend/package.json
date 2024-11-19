@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "vue": "^3.2.37",
-    "vue-router": "^4.4.5"
+    "vue-router": "^4.4.5",
+    "vue3-toastify": "^0.2.4"
   },
   "devDependencies": {
     "@babel/types": "^7.18.10",

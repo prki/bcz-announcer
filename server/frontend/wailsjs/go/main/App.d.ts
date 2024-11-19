@@ -20,4 +20,6 @@ export function SendHeaderUpdate(arg1:string):Promise<void>;
 
 export function SendMessage():Promise<string>;
 
+export function SendTextdisplayUpdate(arg1:string):Promise<void>;
+
 export function SendUpdateCallout(arg1:string,arg2:string,arg3:string):Promise<main.SetupMatch>;

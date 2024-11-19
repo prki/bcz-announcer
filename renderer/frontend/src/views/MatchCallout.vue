@@ -1,5 +1,5 @@
 <template>
-  <div class="row mb-4 d-flex"> 
+  <div class="row mb-4"> 
     <div class="col">
       <h1 class="text-center">CURRENT MATCHES</h1>
     </div>
