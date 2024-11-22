@@ -14,6 +14,34 @@ export namespace main {
 	        this.update_request = source["update_request"];
 	    }
 	}
+	export class GGOBRow {
+	    player_name: string;
+	    points: number;
+	
+	    static createFrom(source: any = {}) {
+	        return new GGOBRow(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.player_name = source["player_name"];
+	        this.points = source["points"];
+	    }
+	}
+	export class Message {
+	    action: string;
+	    message: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new Message(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.action = source["action"];
+	        this.message = source["message"];
+	    }
+	}
 	export class SetupMatch {
 	    game_name: string;
 	    p1_name: string;

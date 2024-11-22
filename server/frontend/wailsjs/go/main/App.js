@@ -10,8 +10,20 @@ export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
 }
 
+export function ReadGGOBCsvPreview() {
+  return window['go']['main']['App']['ReadGGOBCsvPreview']();
+}
+
 export function ReturnCalloutUpdateMessage(arg1) {
   return window['go']['main']['App']['ReturnCalloutUpdateMessage'](arg1);
+}
+
+export function ReturnGGOBRow(arg1) {
+  return window['go']['main']['App']['ReturnGGOBRow'](arg1);
+}
+
+export function ReturnMessage(arg1) {
+  return window['go']['main']['App']['ReturnMessage'](arg1);
 }
 
 export function ReturnSetupMatch(arg1) {
@@ -28,6 +40,10 @@ export function SendChangeViewRequest(arg1) {
 
 export function SendFooterUpdate(arg1) {
   return window['go']['main']['App']['SendFooterUpdate'](arg1);
+}
+
+export function SendGGOBCsv() {
+  return window['go']['main']['App']['SendGGOBCsv']();
 }
 
 export function SendHeaderUpdate(arg1) {
