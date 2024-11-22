@@ -3,12 +3,15 @@ package main
 import (
 	"bufio"
 	"context"
+	"encoding/csv"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
 	"log"
 	"net"
+	"os"
+	"strconv"
 	"sync"
 	"time"
 
@@ -74,6 +77,11 @@ type SetupMatch struct {
 	P1Name    string `json:"p1_name"`
 	P2Name    string `json:"p2_name"`
 	CalloutId string `json:"callout_id"`
+}
+
+type GGOBRow struct {
+	PlayerName string `json:"player_name"`
+	Points     int    `json:"points"`
 }
 
 // NewApp creates a new App application struct
@@ -446,6 +454,96 @@ func (a *App) sendMessageToRenderer(msg Message) error {
 	return nil
 }
 
+func (a *App) readGGOBCsv() ([]GGOBRow, error) {
+	log.Println("[INFO] Reading GGOB CSV file")
+
+	file, err := os.Open("./ggob.csv")
+	if err != nil {
+		log.Println("[ERROR] Error opening ggob.csv:", err)
+		return nil, err
+	}
+
+	reader := csv.NewReader(file)
+	data, err := reader.ReadAll()
+	if err != nil {
+		log.Println("[ERROR] Error reading ggob.csv:", err)
+		return nil, err
+	}
+
+	var ret []GGOBRow
+	for _, row := range data {
+		pointsInt, err := strconv.Atoi(row[1])
+		if err != nil {
+			log.Println("[ERROR] Error parsing ggob.csv - points for player " + row[0] + " cannot be casted to int")
+			return nil, err
+		}
+
+		newRow := GGOBRow{
+			PlayerName: row[0],
+			Points:     pointsInt,
+		}
+
+		ret = append(ret, newRow)
+	}
+
+	return ret, nil
+}
+
+func (a *App) ReadGGOBCsvPreview() *Message {
+	log.Println("[INFO] Fetching GGOB CSV Preview")
+
+	rows, err := a.readGGOBCsv()
+	if err != nil {
+		log.Println("[ERROR] Error fetching GGOB CSV preview:", err)
+		msg := Message{
+			Action:  "tableresults",
+			Message: err.Error(),
+		}
+
+		return &msg
+	}
+
+	jsonRows, err := json.Marshal(rows)
+	if err != nil {
+		log.Println("[ERROR] Error creating json result for ggob.csv:", err)
+		return nil
+	}
+
+	msg := Message{
+		Action:  "tableresults",
+		Message: string(jsonRows),
+	}
+
+	return &msg
+}
+
+func (a *App) SendGGOBCsv() {
+	log.Println("[INFO] Sending GGOB CSV to renderer")
+
+	rows, err := a.readGGOBCsv()
+	if err != nil {
+		log.Println("[ERROR] Error reading GGOB CSV:", err)
+		return
+	}
+
+	jsonRows, err := json.Marshal(rows)
+	if err != nil {
+		log.Println("[ERROR] Error creating json result for ggob.csv:", err)
+		return
+	}
+
+	msg := Message{
+		Action:  "tableresults/update",
+		Message: string(jsonRows),
+	}
+
+	err = a.sendMessageToRenderer(msg)
+	if err != nil {
+		log.Println("[ERROR] Error sending message to renderer:", err)
+		return
+	}
+}
+
 // Function created so that wails models generate SetupMatch type
 func (a *App) ReturnSetupMatch(matchInfo SetupMatch) SetupMatch {
 	return matchInfo
@@ -454,4 +552,14 @@ func (a *App) ReturnSetupMatch(matchInfo SetupMatch) SetupMatch {
 // Function created so that wails models generate CalloutUpdateMessage type
 func (a *App) ReturnCalloutUpdateMessage(cupdatemsg CalloutUpdateMessage) CalloutUpdateMessage {
 	return cupdatemsg
+}
+
+// Function created so that wails models generate Message type
+func (a *App) ReturnMessage(msg Message) Message {
+	return msg
+}
+
+// Function created so that wails models generate GGOBRow type
+func (a *App) ReturnGGOBRow(row GGOBRow) GGOBRow {
+	return row
 }

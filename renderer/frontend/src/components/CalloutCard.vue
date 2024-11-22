@@ -2,7 +2,7 @@
   <div class="col">
     <!--<div class="card" style="width: 18rem;">-->
     <!--<div class="card card-font bg-transparent">-->
-    <div class="card card-font bg-transparent mb-4" :class="{ border: status === 'dq', 'border-warning': status === 'dq' }" style="width: 18rem;">
+    <div class="card card-font bg-transparent mb-4" :class="{ border: status === 'dq', 'border-warning': status === 'dq', 'border-danger': status === 'stream' }" style="width: 18rem;">
       <!--<div class="card-header text-center">
         {{ friendlyGameTitle(gameName) }}
       </div>
@@ -14,6 +14,7 @@
           <li class="list-group-item bg-transparent card-font">{{ p2Name }}</li>
         </ul>
         <p class="text-center" v-show="status === 'dq'" style="color: yellow;">DQ ALERT</p>
+        <p class="text-center" v-show="status === 'stream'" style="color: red;">STREAM</p>
       </div>
     </div>
   </div>
@@ -97,7 +98,7 @@ function friendlyGameTitle(gamename: string): string {
 
 .card-img-top {
   width: 100%;
-  height: 12vh;
+  height: 10vh;
   object-fit: fill;
 }
 </style>

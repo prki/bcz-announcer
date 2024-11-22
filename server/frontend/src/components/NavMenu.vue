@@ -1,6 +1,6 @@
 <template>
   <div class="row mb-4">
-    <div class="col">
+    <div class="col justify-content-center">
       <ul class="nav nav-tabs">
         <li class="nav-item">
           <RouterLink class="nav-link" to="/">Index</RouterLink>
@@ -16,6 +16,9 @@
         </li>
         <li class="nav-item">
           <RouterLink class="nav-link" to="/textdisplay">TextDisplay</RouterLink>
+        </li>
+        <li class="nav-item">
+          <RouterLink class="nav-link" to="/tableresults">TableResults</RouterLink>
         </li>
       </ul>
     </div>

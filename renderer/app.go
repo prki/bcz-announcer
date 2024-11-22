@@ -118,6 +118,8 @@ func (a *App) handleConnection() {
 			runtime.EventsEmit(a.ctx, "header/update", msg)
 		} else if msg.Action == "textdisplay/update" {
 			runtime.EventsEmit(a.ctx, "textdisplay/update", msg)
+		} else if msg.Action == "tableresults/update" {
+			runtime.EventsEmit(a.ctx, "tableresults/update", msg)
 		} else {
 			log.Println("[ERROR] Unhandled action:", msg.Action)
 		}

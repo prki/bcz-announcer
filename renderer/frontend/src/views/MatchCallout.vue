@@ -1,9 +1,10 @@
 <template>
-  <div class="row mb-4"> 
+  <!--<div class="row mb-4"> 
     <div class="col">
       <h1 class="text-center">CURRENT MATCHES</h1>
     </div>
   </div>
+  -->
   <div class="row">
     <div class="col">
       <div class="row row-cols-md-4 justify-content-center align-items-center">

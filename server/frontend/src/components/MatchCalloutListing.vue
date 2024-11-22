@@ -10,6 +10,7 @@
           <div class="d-flex gap-1">
             <button type="button" class="btn btn-success" @click="sendColorUpdate(card, 'default')">Default color</button>
             <button type="button" class="btn btn-warning" @click="sendColorUpdate(card, 'dq')">Color DQ</button>
+            <button type="button" class="btn btn-info" @click="sendColorUpdate(card, 'stream')">Color Stream</button>
             <button type="button" class="btn btn-danger" @click="sendCardRemove(card)">Remove card</button>
           </div>
         </li>
