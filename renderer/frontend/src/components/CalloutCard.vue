@@ -1,20 +1,14 @@
 <template>
   <div class="col">
-    <!--<div class="card" style="width: 18rem;">-->
-    <!--<div class="card card-font bg-transparent">-->
-    <div class="card card-font bg-transparent mb-4" :class="{ border: status === 'dq', 'border-warning': status === 'dq', 'border-danger': status === 'stream' }" style="width: 18rem;">
-      <!--<div class="card-header text-center">
-        {{ friendlyGameTitle(gameName) }}
-      </div>
-      -->
-      <img :src="gameNameToLogoPath(gameName)" class="card-img-top">
+    <div class="card card-font bg-transparent" :class="[cardSize, { border: status === 'dq', 'border-warning': status === 'dq', 'border-danger': status === 'stream' }]">
+      <img :src="gameNameToLogoPath(gameName)" class="card-img-top" :class="cardSize">
       <div class="card-body bg-transparent" :class="status">
         <ul class="list-group list-group-flush text-center">
           <li class="list-group-item bg-transparent card-font">{{ p1Name }}</li>
-          <li class="list-group-item bg-transparent card-font">{{ p2Name }}</li>
+          <li class="list-group-item bg-transparent card-font border-bottom-0">{{ p2Name }}</li>
+          <li class="list-group-item bg-transparent card-font border-bottom-0" v-show="status === 'dq'" style="color: yellow;">DQ ALERT</li>
+          <li class="list-group-item bg-transparent card-font border-bottom-0" v-show="status === 'stream'" style="color: red;">STREAM</li>
         </ul>
-        <p class="text-center" v-show="status === 'dq'" style="color: yellow;">DQ ALERT</p>
-        <p class="text-center" v-show="status === 'stream'" style="color: red;">STREAM</p>
       </div>
     </div>
   </div>
@@ -22,7 +16,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-const props = defineProps(['gameName', 'p1Name', 'p2Name', 'id', 'state']);
+const props = defineProps(['gameName', 'p1Name', 'p2Name', 'id', 'state', 'cardSize']);
 console.log(props.state);
 
 const status = ref('default');
@@ -85,7 +79,7 @@ function friendlyGameTitle(gamename: string): string {
 .card-font {
   font-family: 'Montserrat', sans-serif;
   font-weight: 800;
-  font-size: 28px;
+  /*font-size: 22px;*/
   color: white;
 }
 
@@ -98,7 +92,35 @@ function friendlyGameTitle(gamename: string): string {
 
 .card-img-top {
   width: 100%;
-  height: 10vh;
+  height: 15vh;
   object-fit: fill;
+}
+
+.card-img-top.cardsize-large {
+  height: 30vh;
+}
+
+.card-img-top.cardsize-medium {
+  height: 20vh;
+}
+
+.card-img-top.cardsize-small {
+  height: 10vh;
+}
+
+.list-group-item {
+  overflow: hidden;
+}
+
+.cardsize-large {
+  font-size: 40px !important;
+}
+
+.cardsize-medium {
+  font-size: 20px !important;
+}
+
+.cardsize-small {
+  font-size: 10px !important;
 }
 </style>
