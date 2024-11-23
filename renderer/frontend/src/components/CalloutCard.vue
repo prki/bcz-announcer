@@ -4,8 +4,8 @@
       <img :src="gameNameToLogoPath(gameName)" class="card-img-top" :class="cardSize">
       <div class="card-body bg-transparent" :class="status">
         <ul class="list-group list-group-flush text-center">
-          <li class="list-group-item bg-transparent card-font">{{ p1Name }}</li>
-          <li class="list-group-item bg-transparent card-font border-bottom-0">{{ p2Name }}</li>
+          <li class="list-group-item bg-transparent card-font text-truncate">{{ p1Name }}</li>
+          <li class="list-group-item bg-transparent card-font border-bottom-0 text-truncate">{{ p2Name }}</li>
           <li class="list-group-item bg-transparent card-font border-bottom-0" v-show="status === 'dq'" style="color: yellow;">DQ ALERT</li>
           <li class="list-group-item bg-transparent card-font border-bottom-0" v-show="status === 'stream'" style="color: red;">STREAM</li>
         </ul>
@@ -97,15 +97,15 @@ function friendlyGameTitle(gamename: string): string {
 }
 
 .card-img-top.cardsize-large {
-  height: 30vh;
-}
-
-.card-img-top.cardsize-medium {
   height: 20vh;
 }
 
+.card-img-top.cardsize-medium {
+  height: 12vh;
+}
+
 .card-img-top.cardsize-small {
-  height: 10vh;
+  height: 8vh;
 }
 
 .list-group-item {
@@ -113,7 +113,7 @@ function friendlyGameTitle(gamename: string): string {
 }
 
 .cardsize-large {
-  font-size: 40px !important;
+  font-size: 32px !important;
 }
 
 .cardsize-medium {
@@ -121,6 +121,6 @@ function friendlyGameTitle(gamename: string): string {
 }
 
 .cardsize-small {
-  font-size: 10px !important;
+  font-size: 16px !important;
 }
 </style>
