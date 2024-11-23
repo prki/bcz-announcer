@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
-import { calloutStore } from '../store/store.js';
+import { calloutStore } from '../store/store';
 import * as wails from '../../wailsjs/runtime/runtime.js';
 import { DeleteCalloutCard } from '../../wailsjs/go/main/App';
 import { SendCalloutUpdate } from '../../wailsjs/go/main/App';
