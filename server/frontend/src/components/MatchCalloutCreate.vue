@@ -40,8 +40,11 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
+import { calloutStore } from '../store/store.js';
 import * as models from '../../wailsjs/go/models';
 import { SendUpdateCallout } from '../../wailsjs/go/main/App';
+
+const props = defineProps(['can-create']);
 
 const state = reactive({
   p1Name: 'Player 1 name',
@@ -57,6 +60,12 @@ const state = reactive({
 //   * Emit callout created in order for parent to put match into listing.
 function createNewCallout() {
   console.log("Selected game:", state.gameName);
+  if (calloutStore.cardCount >= calloutStore.maxCards) {
+    alert("Cannot create more than " + calloutStore.maxCards + " callout cards!");
+    return;
+  }
+
+  // [TODO] Rename to SendNewCallout or something akin to that.
   SendUpdateCallout(state.p1Name, state.p2Name, state.gameName).then((result) => {
     console.log("[DEBUG] [MatchCalloutCreate] Go returned:", result);
   });

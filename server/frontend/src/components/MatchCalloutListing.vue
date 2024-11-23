@@ -21,6 +21,7 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
+import { calloutStore } from '../store/store.js';
 import * as wails from '../../wailsjs/runtime/runtime.js';
 import { DeleteCalloutCard } from '../../wailsjs/go/main/App';
 import { SendCalloutUpdate } from '../../wailsjs/go/main/App';
@@ -34,6 +35,10 @@ type CardDescription = {
 
 const cards = reactive<CardDescription[]>([]);
 
+const getCardCount = (): number => {
+  return cards.length;
+}
+
 wails.EventsOn("callout/new", (match) => {
   console.log("Adding match into list:", match);
   const newCard: CardDescription = {
@@ -43,6 +48,7 @@ wails.EventsOn("callout/new", (match) => {
     ackState: "PENDING",
   };
   cards.push(newCard);
+  calloutStore.increment();
 });
 
 // [TODO] Isn't there a race condition? Is there only one event handled at once guaranteed? Should be? I think so?
@@ -51,6 +57,7 @@ wails.EventsOn("callout/delete", (cardId) => {
   const idx = cards.findIndex((card) => card.id === cardId);
   if (idx !== -1) {
     cards.splice(idx, 1);
+    calloutStore.decrement();
   }
   // [TODO] Consider some logging component on frontend
   else {

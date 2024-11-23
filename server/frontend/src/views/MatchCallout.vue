@@ -2,10 +2,10 @@
   <div class="row">
     <div class="col-5">
       <!--<h2>Match callout view</h2>-->
-      <MatchCalloutCreate />
+      <MatchCalloutCreate/>
     </div>
     <div class="col-7">
-      <MatchCalloutListing />
+      <MatchCalloutListing/>
     </div>
   </div>
 </template>
