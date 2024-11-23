@@ -40,7 +40,8 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
-import { calloutStore } from '../store/store.js';
+import { calloutStore } from '../store/store';
+import { toastStore, Toast } from '../store/toastStore';
 import * as models from '../../wailsjs/go/models';
 import { SendUpdateCallout } from '../../wailsjs/go/main/App';
 
@@ -61,7 +62,12 @@ const state = reactive({
 function createNewCallout() {
   console.log("Selected game:", state.gameName);
   if (calloutStore.cardCount >= calloutStore.maxCards) {
-    alert("Cannot create more than " + calloutStore.maxCards + " callout cards!");
+    //alert("Cannot create more than " + calloutStore.maxCards + " callout cards!");
+    toastStore.addToast({
+      headerMessage: "Callout create error",
+      message: "Cannot create more than " + calloutStore.maxCards + " callout cards!",
+      toastBg: "bg-danger"
+    });
     return;
   }
 

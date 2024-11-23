@@ -3,6 +3,7 @@
 import Main from './views/Main.vue'
 import NavMenu from './components/NavMenu.vue';
 import RendererControlMenu from './components/RendererControlMenu.vue';
+import ToastContainer from './components/ToastContainer.vue';
 </script>
 
 <template>
@@ -23,6 +24,7 @@ import RendererControlMenu from './components/RendererControlMenu.vue';
       </KeepAlive>
     </router-view>
   </div>
+  <ToastContainer />
 </template>
 
 <style>
