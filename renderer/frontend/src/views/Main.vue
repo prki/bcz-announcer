@@ -1,9 +1,10 @@
 <template>
   <div class="row">
     <div class="col">
-      <p>Message will be displayed here.</p>
+      <!--<p>Message will be displayed here.</p>
       <p>Message action: {{ receivedMsg.action }}</p>
       <p>Message content: {{ receivedMsg.message }}</p>
+      -->
     </div>
   </div>
 </template>

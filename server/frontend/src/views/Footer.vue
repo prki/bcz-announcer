@@ -6,7 +6,7 @@
         <div class="row">
           <div class="col">
             <label for="footer-text" class="form-label">Footer content</label>
-            <textarea type="text" class="form-control" id="footer-text" rows="4" v-model="state.textcontent" placeholder="<p>Welcome to <b>Buttonczech 2024</b>!</p>"></textarea>
+            <textarea type="text" class="form-control" id="footer-text" rows="4" v-model="state.textcontent" placeholder="<span>Welcome to <b>Buttonczech 2024</b>!</span>"></textarea>
           </div>
         </div>
         <div class="row">
