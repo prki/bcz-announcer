@@ -85,6 +85,7 @@ const removeCard = (card_id: string) => {
 wails.EventsOn("callout/new", (msg: models.main.Message) => {
   console.log("Received callout new message:", msg);
   const msgJson: cardJson = JSON.parse(msg.message);  // This could be given a type since we know what the message is.
+  msgJson.status = 'default';
   console.log("Message as obj:", msgJson);
 
   addNewCard(msgJson);
