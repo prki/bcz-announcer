@@ -4,8 +4,8 @@
       <img :src="gameNameToLogoPath(gameName)" class="card-img-top" :class="cardSize">
       <div class="card-body bg-transparent" :class="status">
         <ul class="list-group list-group-flush text-center">
-          <li class="list-group-item bg-transparent card-font text-truncate">{{ p1Name }}</li>
-          <li class="list-group-item bg-transparent card-font border-bottom-0 text-truncate">{{ p2Name }}</li>
+          <li class="list-group-item bg-transparent card-font text-truncate">{{ getFlagEmoji(p1CountryCode) }} {{ p1Name }}</li>
+          <li class="list-group-item bg-transparent card-font border-bottom-0 text-truncate"> {{ getFlagEmoji(p2CountryCode) }} {{ p2Name }}</li>
           <li class="list-group-item bg-transparent card-font border-bottom-0" v-show="status === 'dq'" style="color: yellow;">DQ ALERT</li>
           <li class="list-group-item bg-transparent card-font border-bottom-0" v-show="status === 'stream'" style="color: red;">STREAM</li>
         </ul>
@@ -16,7 +16,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-const props = defineProps(['gameName', 'p1Name', 'p2Name', 'id', 'state', 'cardSize', 'status']);
+const props = defineProps(['gameName', 'p1Name', 'p1CountryCode', 'p2Name', 'p2CountryCode', 'id', 'state', 'cardSize', 'status']);
 
 //const status = ref('default');
 console.log("[DEBUG] Callout card status:", props.status);
@@ -47,7 +47,16 @@ function gameNameToLogoPath(gamename: string): string {
     default:
       return "";
   }
+}
 
+
+// Taken from https://dev.to/jorik/country-code-to-flag-emoji-a21
+function getFlagEmoji(countryCode: string) {
+  const codePoints = countryCode
+    .toUpperCase()
+    .split('')
+    .map(char =>  127397 + char.charCodeAt(0));
+  return String.fromCodePoint(...codePoints);
 }
 
 // Simple switch/case since low number of options/static content

@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"context"
+	"database/sql"
 	"encoding/csv"
 	"encoding/json"
 	"errors"
@@ -16,6 +17,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	_ "github.com/mattn/go-sqlite3"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
@@ -29,6 +31,7 @@ type App struct {
 	conn     net.Conn
 	//existingCallouts []SetupMatch
 	callouts CalloutStorage
+	playerDb PlayerDb
 }
 
 type CalloutStorage struct {
@@ -73,15 +76,66 @@ type AckMessage struct {
 }
 
 type SetupMatch struct {
-	GameName  string `json:"game_name"`
-	P1Name    string `json:"p1_name"`
-	P2Name    string `json:"p2_name"`
-	CalloutId string `json:"callout_id"`
+	GameName      string `json:"game_name"`
+	P1Name        string `json:"p1_name"`
+	P1CountryCode string `json:"p1_country_code"`
+	P2Name        string `json:"p2_name"`
+	P2CountryCode string `json:"p2_country_code"`
+	CalloutId     string `json:"callout_id"`
 }
 
 type GGOBRow struct {
 	PlayerName string `json:"player_name"`
 	Points     int    `json:"points"`
+}
+
+type PlayerDb struct {
+	DbConn *sql.DB
+}
+
+// Direct DB row
+type PlayerRow struct {
+	PlayerName  string
+	CountryCode sql.NullString
+}
+
+// In-app representation. In case of unknown country code, the string is empty (”)
+type Player struct {
+	PlayerName  string `json:"player_name"`
+	CountryCode string `json:"country_code"`
+}
+
+// Function fatally fails when the query fails. This is acceptable, since
+// it is called only on the startup and in case of failure, the application
+// would not be in working state.
+func (db *PlayerDb) SelectPlayers() []Player {
+	var ret []Player
+
+	sql := "SELECT name, country_code FROM players;"
+	rows, err := db.DbConn.Query(sql)
+	defer rows.Close()
+	if err != nil {
+		log.Fatal("[ERROR] Error reading players from db:", err)
+	}
+
+	for rows.Next() {
+		row := PlayerRow{}
+		err := rows.Scan(&row.PlayerName, &row.CountryCode)
+		if err != nil {
+			log.Fatal("[ERROR] Error scanning db:", err)
+		}
+
+		player := Player{PlayerName: row.PlayerName}
+		if row.CountryCode.Valid {
+			player.CountryCode = row.CountryCode.String
+		} else {
+			player.CountryCode = ""
+		}
+
+		ret = append(ret, player)
+	}
+
+	return ret
 }
 
 // NewApp creates a new App application struct
@@ -101,6 +155,12 @@ func (a *App) startup(ctx context.Context) {
 	log.Println("[INFO] [GO] Server listening on localhost:42069")
 	a.listener = listener
 	a.conn = nil
+
+	dbConn, err := sql.Open("sqlite3", "./players.db")
+	if err != nil {
+		log.Fatal("Error starting server: ", err)
+	}
+	a.playerDb.DbConn = dbConn
 
 	go a.handleServer()
 }
@@ -274,7 +334,7 @@ func (a *App) DeleteCalloutCard(cardId string) {
 
 // [TODO] Rename to SendNewCallout or something similar. Update should be used for
 // status updates, not new cards.
-func (a *App) SendUpdateCallout(p1Name, p2Name, gameName string) *SetupMatch {
+func (a *App) SendUpdateCallout(p1Name, p1CountryCode, p2Name, p2CountryCode, gameName string) *SetupMatch {
 	log.Println("[INFO] [GO] Sending update callout request: ", p1Name, p2Name)
 	if a.conn == nil {
 		log.Println("[ERROR] [GO] No connection established, unable to send request")
@@ -291,10 +351,12 @@ func (a *App) SendUpdateCallout(p1Name, p2Name, gameName string) *SetupMatch {
 	log.Println("[DEBUG] [GO] Generated UUID:", idStr)
 
 	matchInfo := &SetupMatch{
-		GameName:  gameName,
-		P1Name:    p1Name,
-		P2Name:    p2Name,
-		CalloutId: idStr,
+		GameName:      gameName,
+		P1Name:        p1Name,
+		P1CountryCode: p1CountryCode,
+		P2Name:        p2Name,
+		P2CountryCode: p2CountryCode,
+		CalloutId:     idStr,
 	}
 
 	matchInfoJson, err := json.Marshal(matchInfo)
@@ -542,6 +604,10 @@ func (a *App) SendGGOBCsv() {
 		log.Println("[ERROR] Error sending message to renderer:", err)
 		return
 	}
+}
+
+func (a *App) GetPlayers() []Player {
+	return a.playerDb.SelectPlayers()
 }
 
 // Function created so that wails models generate SetupMatch type

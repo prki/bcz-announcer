@@ -42,10 +42,26 @@ export namespace main {
 	        this.message = source["message"];
 	    }
 	}
+	export class Player {
+	    player_name: string;
+	    country_code: string;
+	
+	    static createFrom(source: any = {}) {
+	        return new Player(source);
+	    }
+	
+	    constructor(source: any = {}) {
+	        if ('string' === typeof source) source = JSON.parse(source);
+	        this.player_name = source["player_name"];
+	        this.country_code = source["country_code"];
+	    }
+	}
 	export class SetupMatch {
 	    game_name: string;
 	    p1_name: string;
+	    p1_country_code: string;
 	    p2_name: string;
+	    p2_country_code: string;
 	    callout_id: string;
 	
 	    static createFrom(source: any = {}) {
@@ -56,7 +72,9 @@ export namespace main {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.game_name = source["game_name"];
 	        this.p1_name = source["p1_name"];
+	        this.p1_country_code = source["p1_country_code"];
 	        this.p2_name = source["p2_name"];
+	        this.p2_country_code = source["p2_country_code"];
 	        this.callout_id = source["callout_id"];
 	    }
 	}
