@@ -1,6 +1,6 @@
 <template>
   <div class="col">
-    <div class="card card-font bg-transparent" :class="[cardSize, { border: status === 'dq', 'border-warning': status === 'dq', 'border-danger': status === 'stream' }]">
+    <div class="card card-font" :class="[cardSize, { border: status === 'dq', 'border-warning': status === 'dq', 'border-danger': status === 'stream' , 'bg-transparent': status === 'default', 'dq': status === 'dq', 'stream': status === 'stream'}]">
       <img :src="gameNameToLogoPath(gameName)" class="card-img-top" :class="cardSize">
       <div class="card-body bg-transparent" :class="status">
         <ul class="list-group list-group-flush text-center">
@@ -92,7 +92,37 @@ function friendlyGameTitle(gamename: string): string {
   background-color: green;
 }
 .dq {
-  background-color: yellow;
+  background-color: transparent;
+  animation: fadeBackgroundDq 3s infinite;
+}
+
+@keyframes fadeBackgroundDq {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(255, 255, 0, 0.2);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.stream {
+  background-color: transparent;
+  animation: fadeBackgroundStream 3s infinite;
+}
+
+@keyframes fadeBackgroundStream {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(255, 0, 0, 0.2);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 .card-img-top {
