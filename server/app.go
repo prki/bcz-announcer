@@ -111,7 +111,7 @@ type Player struct {
 func (db *PlayerDb) SelectPlayers() []Player {
 	var ret []Player
 
-	sql := "SELECT name, country_code FROM players;"
+	sql := "SELECT name, country_code FROM players ORDER BY name COLLATE NOCASE ASC;"
 	rows, err := db.DbConn.Query(sql)
 	defer rows.Close()
 	if err != nil {
