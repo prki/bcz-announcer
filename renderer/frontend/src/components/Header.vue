@@ -35,7 +35,7 @@ import * as wails from '../../wailsjs/runtime/runtime.js';
 import * as models from '../../wailsjs/go/models';
 
 const state = reactive({
-  headerText: '<b>Header text static placeholder</b>',
+  headerText: '<b>Welcome to BUTTONCZECH 2024!</b>',
   headerImage: '<i>Header image</i>'
 });
 
