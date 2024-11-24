@@ -16,18 +16,14 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-const props = defineProps(['gameName', 'p1Name', 'p2Name', 'id', 'state', 'cardSize']);
-console.log(props.state);
+const props = defineProps(['gameName', 'p1Name', 'p2Name', 'id', 'state', 'cardSize', 'status']);
 
-const status = ref('default');
+//const status = ref('default');
+console.log("[DEBUG] Callout card status:", props.status);
 const id = props.id;
 
-function changeStatus(newStatus: string) {
-  status.value = newStatus;
-}
-
 defineExpose({
-  changeStatus,
+  //matchStatus,
   id
 });
 
