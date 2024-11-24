@@ -6,6 +6,10 @@ export function DeleteCalloutCard(arg1) {
   return window['go']['main']['App']['DeleteCalloutCard'](arg1);
 }
 
+export function GetPlayers() {
+  return window['go']['main']['App']['GetPlayers']();
+}
+
 export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
 }
@@ -58,6 +62,6 @@ export function SendTextdisplayUpdate(arg1) {
   return window['go']['main']['App']['SendTextdisplayUpdate'](arg1);
 }
 
-export function SendUpdateCallout(arg1, arg2, arg3) {
-  return window['go']['main']['App']['SendUpdateCallout'](arg1, arg2, arg3);
+export function SendUpdateCallout(arg1, arg2, arg3, arg4, arg5) {
+  return window['go']['main']['App']['SendUpdateCallout'](arg1, arg2, arg3, arg4, arg5);
 }

@@ -4,6 +4,8 @@ import {main} from '../models';
 
 export function DeleteCalloutCard(arg1:string):Promise<void>;
 
+export function GetPlayers():Promise<Array<main.Player>>;
+
 export function Greet(arg1:string):Promise<string>;
 
 export function ReadGGOBCsvPreview():Promise<main.Message>;
@@ -30,4 +32,4 @@ export function SendMessage():Promise<string>;
 
 export function SendTextdisplayUpdate(arg1:string):Promise<void>;
 
-export function SendUpdateCallout(arg1:string,arg2:string,arg3:string):Promise<main.SetupMatch>;
+export function SendUpdateCallout(arg1:string,arg2:string,arg3:string,arg4:string,arg5:string):Promise<main.SetupMatch>;

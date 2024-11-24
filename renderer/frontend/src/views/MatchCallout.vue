@@ -2,7 +2,7 @@
   <div class="row h-100">
     <div class="col h-100">
       <div class="row justify-content-center align-items-center h-100" :class="rowLayout">
-        <CalloutCard v-for="(card, idx) in cards" :key="idx" ref="calloutCards" :gameName="card.game_name" :p1Name="card.p1_name" :p2Name="card.p2_name" :id="card.callout_id" :cardSize="calloutCardSize" :status="card.status" />
+        <CalloutCard v-for="(card, idx) in cards" :key="idx" ref="calloutCards" :gameName="card.game_name" :p1Name="card.p1_name" :p1CountryCode="card.p1_country_code" :p2Name="card.p2_name" :p2CountryCode="card.p2_country_code" :id="card.callout_id" :cardSize="calloutCardSize" :status="card.status" />
       </div>
     </div>
   </div>
@@ -17,7 +17,9 @@ import * as models from '../../wailsjs/go/models';
 type cardJson = {
   game_name: string,
   p1_name: string,
+  p1_country_code: string,
   p2_name: string,
+  p2_country_code: string,
   callout_id: string,
   status: string,
 };

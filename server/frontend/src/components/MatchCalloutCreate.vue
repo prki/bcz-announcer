@@ -19,11 +19,17 @@
         <div class="row mb-1">
           <div class="col-6">
             <label for="match-p1" class="form-label">Player 1 name</label>
-            <input type="text" class="form-control" id="match-p1" v-model="state.p1Name">
+            <!--<input type="text" class="form-control" id="match-p1" v-model="state.p1Name">-->
+            <select v-model="state.p1Name" id="match-p1" class="form-select">
+              <option v-for="(value, key, idx) in playerMap" :key="idx" :value="key">{{ key }}</option>
+            </select>
           </div>
           <div class="col-6">
             <label for="match-p2" class="form-label">Player 2 name</label>
-            <input type="text" class="form-control" id="match-p2" v-model="state.p2Name">
+            <!--<input type="text" class="form-control" id="match-p2" v-model="state.p2Name">-->
+            <select v-model="state.p2Name" id="match-p2" class="form-select">
+              <option v-for="(value, key, idx) in playerMap" :key="idx" :value="key">{{ key }}</option>
+            </select>
           </div>
         </div>
         <div class="row mt-2 d-flex justify-content-center">
@@ -43,14 +49,26 @@ import { reactive } from 'vue';
 import { calloutStore } from '../store/store';
 import { toastStore, Toast } from '../store/toastStore';
 import * as models from '../../wailsjs/go/models';
-import { SendUpdateCallout } from '../../wailsjs/go/main/App';
+import { SendUpdateCallout, GetPlayers } from '../../wailsjs/go/main/App';
 
-const props = defineProps(['can-create']);
+type Player = {
+  playerName: string,
+  countryCode: string
+}
 
 const state = reactive({
-  p1Name: 'Player 1 name',
-  p2Name: 'Player 2 name',
+  p1Name: '',
+  p2Name: '',
   gameName: 'bbcf',
+});
+
+const playerMap = reactive<Record<string, Player>>({})
+
+GetPlayers().then((res: models.main.Player[]) => {
+  console.log("Got players:", res);
+  res.map((player: models.main.Player) => {
+    playerMap[player.player_name] = {playerName: player.player_name, countryCode: player.country_code};
+  })
 });
 
 // Function creating new callout.
@@ -71,8 +89,15 @@ function createNewCallout() {
     return;
   }
 
+  console.log("Creating new callout, state:", state);
   // [TODO] Rename to SendNewCallout or something akin to that.
-  SendUpdateCallout(state.p1Name, state.p2Name, state.gameName).then((result) => {
+  SendUpdateCallout(
+    playerMap[state.p1Name].playerName,
+    playerMap[state.p1Name].countryCode,
+    playerMap[state.p2Name].playerName,
+    playerMap[state.p2Name].countryCode,
+    state.gameName
+  ).then((result) => {
     console.log("[DEBUG] [MatchCalloutCreate] Go returned:", result);
   });
 }
