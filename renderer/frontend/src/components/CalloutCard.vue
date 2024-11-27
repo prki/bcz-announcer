@@ -35,7 +35,7 @@ function gameNameToLogoPath(gamename: string): string {
     case "bbcf":
       return basePath + "BBCF_logo.svg";
     case "strive":
-      return basePath + "GGST_logo.svg";
+      return basePath + "GGST_logo_resize.svg";
     case "xrd":
       return basePath + "ggxrdrev2_logo.svg";
     case "plusr":
