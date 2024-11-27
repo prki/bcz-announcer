@@ -1,13 +1,20 @@
 <template>
   <div class="col">
-    <div class="card card-font" :class="[cardSize, { border: status === 'dq', 'border-warning': status === 'dq', 'border-danger': status === 'stream' , 'bg-transparent': status === 'default', 'dq': status === 'dq', 'stream': status === 'stream'}]">
+    <div class="card card-font" 
+         :class="[cardSize, { border: status === 'dq', 'border-warning': status === 'dq', 'border-danger': status === 'stream', 'bg-transparent': status === 'default', 'dq': status === 'dq', 'stream': status === 'stream'}]">
       <img :src="gameNameToLogoPath(gameName)" class="card-img-top" :class="cardSize">
       <div class="card-body bg-transparent" :class="status">
         <ul class="list-group list-group-flush text-center">
-          <li class="list-group-item bg-transparent card-font text-truncate">{{ getFlagEmoji(p1CountryCode) }} {{ p1Name }}</li>
-          <li class="list-group-item bg-transparent card-font border-bottom-0 text-truncate"> {{ getFlagEmoji(p2CountryCode) }} {{ p2Name }}</li>
-          <li class="list-group-item bg-transparent card-font border-bottom-0" v-show="status === 'dq'" style="color: yellow;">DQ ALERT</li>
-          <li class="list-group-item bg-transparent card-font border-bottom-0" v-show="status === 'stream'" style="color: red;">STREAM</li>
+          <li class="list-group-item bg-transparent card-font text-truncate">
+            {{ getFlagEmoji(p1CountryCode) }} {{ p1Name }}
+          </li>
+          <li class="list-group-item bg-transparent card-font border-bottom-0 text-truncate">
+            {{ getFlagEmoji(p2CountryCode) }} {{ p2Name }}
+          </li>
+          <li class="list-group-item bg-transparent card-font border-bottom-0">
+            <span v-if="status === 'dq'" style="color: yellow;">DQ ALERT</span>
+            <span v-else-if="status === 'stream'" style="color: red;">STREAM</span>
+          </li>
         </ul>
       </div>
     </div>
@@ -132,11 +139,11 @@ function friendlyGameTitle(gamename: string): string {
 }
 
 .card-img-top.cardsize-large {
-  height: 20vh;
+  height: 12vh;
 }
 
 .card-img-top.cardsize-medium {
-  height: 12vh;
+  height: 11vh;
 }
 
 .card-img-top.cardsize-small {
@@ -148,14 +155,14 @@ function friendlyGameTitle(gamename: string): string {
 }
 
 .cardsize-large {
-  font-size: 32px !important;
+  font-size: 36px !important;
 }
 
 .cardsize-medium {
-  font-size: 20px !important;
+  font-size: 24px !important;
 }
 
 .cardsize-small {
-  font-size: 16px !important;
+  font-size: 20px !important;
 }
 </style>

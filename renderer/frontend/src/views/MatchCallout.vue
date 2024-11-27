@@ -56,6 +56,10 @@ const rowLayout = computed(() => {
     return "row-cols-md-2";
   }
 
+  if (cardCounter.counter === 1) {
+    return "row-cols-md-1";
+  }
+
   if (cardCounter.counter <= 4) {
     return "row-cols-md-2";
   } else if (cardCounter.counter > 4 && cardCounter.counter <= 6) {
