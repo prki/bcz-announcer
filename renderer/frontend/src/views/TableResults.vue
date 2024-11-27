@@ -1,11 +1,11 @@
 <template>
   <div class="row">
     <div class="col">
-      <h2 class="text-center mb-2">God Gamer of Buttonczech 2024</h2>
+      <h1 class="text-center mb-4"><strong>GOD GAMER OF BUTTONCZECH 2024</strong></h1>
       <div class="row">
-        <div class="col">
-          <h1>GGOB Results preview</h1>
-          <table class="table table-sm">
+        <div class="col d-flex flex-grow-1 align-items-center">
+          <!--<h1 class="text-center">GGOB Results</h1>-->
+          <table class="table">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -51,9 +51,24 @@ wails.EventsOn("tableresults/update", (msg: models.main.Message) => {
 .table {
   --bs-table-bg: transparent !important;
   color: white !important;
+  font-size: 24px !important;
 }
 
 td, th, caption {
   color: white;
+}
+
+th {
+  font-size: 28px !important;
+}
+
+.col {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th {
+  border-top: none;
+  border-bottom: none;
 }
 </style>
