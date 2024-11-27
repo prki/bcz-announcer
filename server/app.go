@@ -588,6 +588,8 @@ func (a *App) SendGGOBCsv() {
 		return
 	}
 
+	rows = rows[:10] // only send top 10
+
 	jsonRows, err := json.Marshal(rows)
 	if err != nil {
 		log.Println("[ERROR] Error creating json result for ggob.csv:", err)
