@@ -31,9 +31,14 @@
       </ul>
       <p>Meaning that the text is sent in bold tag, all text is uppercase. Names of games to be used are:</p>
       <ul>
+        <li>Blazblue Central Fiction: BLAZBLUE CF</li>
+        <li>Guilty Gear Strive: GUILTY GEAR STRIVE</li>
+        <li>Guilty Gear XX Accent Core Plus R: GUILTY GEAR XX ACPR</li>
         <li>Guilty Gear Xrd: GUILTY GEAR XRD</li>
         <li>Street Fighter 6: STREET FIGHTER 6</li>
+        <li>Tekken 8: TEKKEN 8</li>
       </ul>
+      <p>In case you are not sure what the proper text should be, ask <strong>Pida</strong> or <strong>arin</strong>.</p>
     </div>
   </div>
 </template>

@@ -5,6 +5,7 @@
       <p>Message action: {{ receivedMsg.action }}</p>
       <p>Message content: {{ receivedMsg.message }}</p>
       -->
+      <img src="/src/assets/images/announcement_2024.jpg" class="img-fluid">
     </div>
   </div>
 </template>
@@ -36,4 +37,7 @@ wails.EventsOn("message/display", (msg: models.main.Message) => {
 </script>
 
 <style scoped>
+.main-banner {
+  object-fit: none;
+}
 </style>

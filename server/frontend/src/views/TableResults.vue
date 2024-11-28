@@ -40,7 +40,10 @@
   <div class="row">
     <div class="col">
       <h1>Guide</h1>
-      <p><b>[TODO]</b> Describe usage pattern</p>
+      <div class="border">
+        <p class="p-2">This section enables to upload GGOB result data. The result data is provided via the file <span class="font-monospace">ggob.csv</span> located in the folder with this application.</p>
+        <p class="p-2">Before uploading the data to the renderer, run <strong>preview</strong> to validate that the data is handled properly. If not, the data will need to be fixed.</p>
+      </div>
     </div>
   </div>
 </template>

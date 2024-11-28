@@ -82,7 +82,6 @@ func (a *App) handleConnection() {
 		err := decoder.Decode(&msg)
 		if err != nil {
 			fmt.Println("[ERROR] [GO] Error receiving message: ", err)
-			continue
 		}
 
 		fmt.Println("[INFO] [GO] Received message: ", msg)

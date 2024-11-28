@@ -3,7 +3,7 @@
     <div class="col justify-content-center">
       <ul class="nav nav-tabs">
         <li class="nav-item">
-          <RouterLink class="nav-link" to="/">Index</RouterLink>
+          <RouterLink class="nav-link" to="/">Guide</RouterLink>
         </li>
         <li class="nav-item">
           <RouterLink class="nav-link" to="/callout">Callouts</RouterLink>
