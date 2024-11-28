@@ -565,6 +565,8 @@ func (a *App) ReadGGOBCsvPreview() *Message {
 		return &msg
 	}
 
+	rows = rows[:10]
+
 	jsonRows, err := json.Marshal(rows)
 	if err != nil {
 		log.Println("[ERROR] Error creating json result for ggob.csv:", err)
