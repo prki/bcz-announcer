@@ -37,12 +37,14 @@ defineExpose({
 // Function returning image path for a particular logo.
 // Simple switch/case since low number of options/static content
 function gameNameToLogoPath(gamename: string): string {
-  const basePath = "src/assets/images/"
+  const basePath = "/images/"
   switch(gamename) {
     case "bbcf":
       return basePath + "BBCF_logo.svg";
+      //return new URL(basePath + 'BBCF_logo.svg', import.meta.url).href;
     case "strive":
       return basePath + "GGST_logo_resize.svg";
+      //return new URL(basePath + 'GGST_logo_resize.svg', import.meta.url).href;
     case "xrd":
       return basePath + "ggxrdrev2_logo.svg";
     case "plusr":
