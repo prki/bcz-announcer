@@ -29,7 +29,7 @@
         <tbody>
           <tr v-for="(row, idx) in state" :key="idx">
             <th scope="row">{{ idx + 1 }}</th>
-            <td>{{ row.player_name }}</td>
+            <td><span class="truncated-row text-truncate">{{ row.player_name }}</span></td>
             <td>{{ row.points }}</td>
           </tr>
         </tbody>
@@ -76,6 +76,11 @@ const sendCsv = () => {
 .table {
   --bs-table-bg: transparent !important;
   color: white !important;
+}
+
+.truncated-row {
+  display: inline-block;
+  max-width: 25rem;
 }
 
 td, th, caption {
