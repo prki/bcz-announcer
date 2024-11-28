@@ -14,6 +14,7 @@
           <li class="list-group-item bg-transparent card-font border-bottom-0">
             <span v-if="status === 'dq'" style="color: yellow;">DQ ALERT</span>
             <span v-else-if="status === 'stream'" style="color: red;">STREAM</span>
+            <span v-else style="opacity: 0;">Dummy</span>
           </li>
         </ul>
       </div>
@@ -149,7 +150,7 @@ function friendlyGameTitle(gamename: string): string {
 }
 
 .card-img-top.cardsize-small {
-  height: 8vh;
+  height: 7vh;
 }
 
 .list-group-item {

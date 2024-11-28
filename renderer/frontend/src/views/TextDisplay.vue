@@ -1,8 +1,7 @@
 <template>
   <div class="row">
     <div class="col">
-      <h1>I am text display view</h1>
-      <p>{{ state.content }}</p>
+      <div v-html="state.content" class="p-4"></div>
     </div>
   </div>
 </template>
@@ -23,4 +22,9 @@ wails.EventsOn("textdisplay/update", (msg: models.main.Message) => {
 </script>
 
 <style scoped>
+.col {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 3rem;
+}
 </style>
