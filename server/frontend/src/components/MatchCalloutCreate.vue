@@ -13,6 +13,7 @@
               <option value="plusr">Guilty Gear XX ACPR</option>
               <option value="sf6">Street Fighter 6</option>
               <option value="tekken">Tekken 8</option>
+              <option value="gov">God of Vidya</option>
             </select>
           </div>
         </div>

@@ -14,6 +14,7 @@
           <li><strong>Text Display view</strong> - A simple view letting the operator send a text message into the renderer. To be used when a particular announcement is to be provided.</li>
           <li><strong>Table Results view</strong> - View showing a table containing GGOB results.</li>
         </ul>
+        <p class="p-2">Press <strong>F11</strong> on renderer to make it go fullscreen.</p>
         <p class="p-2">It is recommended to first create content for a particular view and then change to the view - not before.</p>
         <p class="p-2">In case of any questions/technical issues, reach out to <strong>prk`</strong></p>
       </div>
