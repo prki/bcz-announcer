@@ -23,6 +23,14 @@
 }
 
 @font-face {
+  font-family: "Noto Color Emoji";
+  font-style: normal;
+  font-weight: 400;
+  src: local(""), url("assets/fonts/NotoColorEmoji-Regular.ttf") format("truetype");
+
+}
+
+@font-face {
   font-family: "Montserrat";
   font-style: normal;
   font-weight: 400;
@@ -50,4 +58,21 @@ body {
   margin: 0;
 
   color: white;
+}
+
+/* Hide scrollbars but allow scrolling */
+body, html {
+  overflow: hidden;
+}
+
+/* Optional: For specific scrollable elements */
+.scrollable-element {
+  overflow: auto; /* Enable scrolling */
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For IE and Edge */
+}
+
+/* For WebKit-based browsers (Chrome, Safari, etc.) */
+.scrollable-element::-webkit-scrollbar {
+  display: none;
 }

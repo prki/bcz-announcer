@@ -1,19 +1,22 @@
 <template>
   <div class="col">
     <div class="card card-font" 
-         :class="[cardSize, { border: status === 'dq', 'border-warning': status === 'dq', 'border-danger': status === 'stream', 'bg-transparent': status === 'default', 'dq': status === 'dq', 'stream': status === 'stream'}]">
+         :class="[cardSize, { border: status === 'dq', 'border-warning': status === 'dq', 'border-danger': status === 'stream', 'border-secondary': status === 'stream_next', 'bg-transparent': status === 'default', 'dq': status === 'dq', 'stream': status === 'stream', 'stream-next': status === 'stream_next'}]">
       <img :src="gameNameToLogoPath(gameName)" class="card-img-top" :class="cardSize">
       <div class="card-body bg-transparent" :class="status">
         <ul class="list-group list-group-flush text-center">
           <li class="list-group-item bg-transparent card-font text-truncate">
             {{ getFlagEmoji(p1CountryCode) }} {{ p1Name }}
+            <!--<span v-html="getFlagEmoji(p1CountryCode)"></span> {{ p1Name }}-->
           </li>
           <li class="list-group-item bg-transparent card-font border-bottom-0 text-truncate">
             {{ getFlagEmoji(p2CountryCode) }} {{ p2Name }}
+             <!--<span v-html="getFlagEmoji(p2CountryCode)"></span> {{ p2Name }}-->
           </li>
           <li class="list-group-item bg-transparent card-font border-bottom-0">
             <span v-if="status === 'dq'" style="color: yellow;">DQ ALERT</span>
             <span v-else-if="status === 'stream'" style="color: red;">STREAM</span>
+            <span v-else-if="status === 'stream_next'" style="color: darkorange;">NEXT STREAM</span>
             <span v-else style="opacity: 0;">Dummy</span>
           </li>
         </ul>
@@ -23,7 +26,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
 const props = defineProps(['gameName', 'p1Name', 'p1CountryCode', 'p2Name', 'p2CountryCode', 'id', 'state', 'cardSize', 'status']);
 
 //const status = ref('default');
@@ -54,6 +56,8 @@ function gameNameToLogoPath(gamename: string): string {
       return basePath + "SF6_logo.svg";
     case "tekken":
       return basePath + "Tekken-8-logo_white.svg";
+    case "gov":
+      return basePath + "govlogo.svg";
     default:
       return "";
   }
@@ -67,6 +71,14 @@ function getFlagEmoji(countryCode: string) {
     .split('')
     .map(char =>  127397 + char.charCodeAt(0));
   return String.fromCodePoint(...codePoints);
+
+  /*const emoji = String.fromCodePoint(...codePoints);
+
+  return twemoji.parse(emoji, {
+    folder: 'svg',
+    ext: '.svg'
+  });
+  */
 }
 
 // Simple switch/case since low number of options/static content
@@ -92,7 +104,8 @@ function friendlyGameTitle(gamename: string): string {
 
 <style scoped>
 .card-font {
-  font-family: 'Montserrat', sans-serif;
+  /*font-family: 'Montserrat', sans-serif;*/
+  font-family: 'Montserrat', 'Noto Color Emoji', 'Segoe UI Emoji', sans-serif;
   font-weight: 800;
   /*font-size: 22px;*/
   color: white;
@@ -104,6 +117,23 @@ function friendlyGameTitle(gamename: string): string {
 .dq {
   background-color: transparent;
   animation: fadeBackgroundDq 3s infinite;
+}
+
+.stream-next {
+  background-color: transparent;
+  animation: fadeBackgroundStreamNext 3s infinite;
+}
+
+@keyframes fadeBackgroundStreamNext {
+  0% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(255, 140, 0, 0.2);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 @keyframes fadeBackgroundDq {

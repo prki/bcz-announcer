@@ -7,6 +7,7 @@ import * as wails from '../wailsjs/runtime/runtime.js';
 import Footer from './components/Footer.vue';
 import Header from './components/Header.vue';
 const router = useRouter();
+let currFullscreen = false;
 
 // Preload routes by navigating through them. This is important so that data
 // can be sent into a particular view without it having been opened yet =>
@@ -21,6 +22,24 @@ router.push("/matchcallout").then(() => {
     });
   });
 });
+
+function handleKeyPress(event: any) {
+    if (event.key === 'F11') {
+        event.preventDefault(); // Prevent the browser default fullscreen action
+        toggleFullscreen(currFullscreen);
+        currFullscreen = !currFullscreen;
+    }
+}
+
+function toggleFullscreen(currFullscreen: boolean) {
+  if (!currFullscreen) {
+    wails.WindowFullscreen(); // Switch this with `WindowUnfullscreen()` if already fullscreen
+  } else {
+    wails.WindowUnfullscreen();
+  }
+}
+
+window.addEventListener('keydown', handleKeyPress);
 
 wails.EventsOn("control/change_view", (msg: models.main.Message) => {
   console.log("Received change view request:", msg);
@@ -56,7 +75,7 @@ wails.EventsOn("control/change_view", (msg: models.main.Message) => {
       </div>
       <div class="col-4 d-flex">
         <div class="border flex-grow-1">
-          <p>Side panel</p>
+          <img class="img-fluid" src="./assets/images/sidepanel_logo.png" style="object-fit: fill;">
         </div>
       </div>
     </div>
